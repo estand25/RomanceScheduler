@@ -3,9 +3,11 @@ import LogOut from './acount/LogOut'
 import Profile from './acount/Profile'
 import SignUp from './acount/SignUp'
 
-import About from './About'
-import Setting from './Setting'
-import Schedule from './Schedule'
+import About from './about/About'
+
+import Setting from './setting/Setting'
+
+import Schedule from './schedule/Schedule'
 
 export {
     LogIn,
