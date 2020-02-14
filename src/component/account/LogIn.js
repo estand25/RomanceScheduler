@@ -9,13 +9,13 @@ const LogIn = () => {
     const [username, setUserName] = useState('')
     const [password, setPasssword] = useState('')
 
-    const LI = () => {
+    const logIn = () => {
         alert('Log-In')
-        dispatch(account.authLogIn(username,password))
+        dispatch(account.AccountLogIn(username, password))
         history.push('/')
     }
 
-    const CL = () => {
+    const cancelLogIn = () => {
         alert('Cancel Log-In')
     }
 
@@ -45,14 +45,14 @@ const LogIn = () => {
             <button
                 className='btn btn-success'
                 style={{margin: 15}}
-                onClick={LI}
+                onClick={logIn}
             >
                 Log-In
             </button>
             <button
-                className='btn btn-primary'
+                className='btn btn-danger'
                 style={{margin: 15}}
-                onClick={CL}
+                onClick={cancelLogIn}
             >
                 Cancel
             </button>

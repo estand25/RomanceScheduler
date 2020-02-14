@@ -12,27 +12,25 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case actions.AUTH_LOG:
+        case actions.ACCOUNT_LOG:
             return {
                 ...state,
                 validUser: action.payload
             }
-        case actions.AUTH_LOG_IN: {
-            var a = {
+        case actions.ACCOUNT_LOG_IN: {
+            return {
                 ...state,
                 validUser: true,
                 username: action.payload.username,
-                userId: '',
+                userId: action.payload.userId,
                 userLoading: false,
                 error: '',
-                email: '',
-                password: ''
+                email: action.payload.email,
+                password: action.payload.password
             }
-            
-            return a
         }
-        case actions.AUTH_LOG_OUT: {
-            var b = {
+        case actions.ACCOUNT_LOG_OUT: {
+            return {
                 ...state,
                 validUser: false,
                 username: '',
@@ -42,8 +40,24 @@ export default (state = initialState, action) => {
                 email: '',
                 password: ''
             }
-            
-            return b
+        }
+        case actions.ACCOUNT_UPDATE_USENAME:{
+            return {
+                ...state,
+                username: action.username
+            }
+        }
+        case actions.ACCOUNT_UPDATE_EMAIL:{
+            return {
+                ...state,
+                email: action.email
+            }
+        }
+        case actions.ACCOUNT_UPDATE_PASSWORD:{
+            return {
+                ...state,
+                password: action.password
+            }
         }
         default:
             return state

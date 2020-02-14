@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/estand25/quiz-builder-frontend.git"
+    "url": "git+https://github.com/estand25/RomanceScheduler.git"
   },
   "keywords": [],
   "author": "Standley Eugene",
@@ -35,7 +35,8 @@
     "react-router-dom": "^5.1.2",
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "regenerator-runtime": "^0.13.3"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",

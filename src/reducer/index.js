@@ -3,23 +3,23 @@ import { combineReducers } from 'redux'
 import storage from 'redux-persist/lib/storage'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 
-import auth from './auth'
+import account from './account'
 import { persistReducer } from 'redux-persist'
 
 const combinPersistConfig = {
     key: 'root',
     storage: storage,
-    blacklist: ['auth']
+    blacklist: ['account']
 }
 
 const authPersistConfig = {
-    key: 'auth',
+    key: 'account',
     storage: storage,
     stateReconciler: autoMergeLevel2
 }
 
 const rootReducer  = combineReducers({
-    auth: persistReducer(authPersistConfig, auth)
+    account: persistReducer(authPersistConfig, account)
 })
 
 export default persistReducer(combinPersistConfig, rootReducer)

@@ -1,6 +1,8 @@
 import React from 'react'
 import '../index.css'
 
+import regeneratorRuntime from "regenerator-runtime";
+
 import {
     NavBar
 } from '../component'

@@ -1,4 +1,4 @@
-import * as account from './auth-action'
+import * as account from './account-action'
 
 export {
     account

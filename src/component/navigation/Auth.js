@@ -1,14 +1,15 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 const Auth = () => {
-    const auth = useSelector(state => state.auth)
-    if(auth.validUser){
+    const account = useSelector(state => state.account)
+
+    if(account.validUser){
         return (
             <div>
                 <Link to="/profile" className='nav-link'>
-                    {auth.username + ' Profile'}
+                    {account.username + ' Profile'}
                 </Link>
                 <Link to="/logout" className='nav-link'>
                     Log-out

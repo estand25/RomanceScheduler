@@ -7,10 +7,9 @@ const LogOut = () => {
     const dispatch = useDispatch()
     const history = useHistory()
 
-    const LO = () => {
+    const logOut = () => {
         alert('Log-Out')
-        // dispatch(account.setAuthLog(false))
-        dispatch(account.setAuthLogOut())
+        dispatch(account.setAccountLogOut())
         history.push('/about')
     }
 
@@ -18,7 +17,7 @@ const LogOut = () => {
         <button
             className="btn btn-success"
             style={{margin: 15}}
-            onClick={LO}
+            onClick={logOut}
         >
             LogOut
         </button>
