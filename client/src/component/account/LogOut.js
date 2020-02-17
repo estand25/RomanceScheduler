@@ -15,7 +15,7 @@ const LogOut = () => {
 
     return (
         <button
-            className="btn btn-success"
+            className="btn btn-danger"
             style={{margin: 15}}
             onClick={logOut}
         >

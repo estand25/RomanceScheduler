@@ -26,7 +26,9 @@
   },
   "homepage": "https://github.com/estand25/RomanceScheduler#readme",
   "dependencies": {
+    "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
+    "dotenv-webpack": "^1.7.0",
     "lodash": "^4.17.15",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
@@ -44,6 +46,7 @@
     "@babel/preset-react": "^7.7.4",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.4.0",
+    "dotenv": "^8.2.0",
     "html-webpack-plugin": "^3.2.0",
     "style-loader": "^1.1.1",
     "webpack": "^4.41.4",
