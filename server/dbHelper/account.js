@@ -1,6 +1,14 @@
-let userModel = require('../model/user')
+var userModel
+var tokenModel
+var clientModel
+var oAuthModel
 
-module.exports = () => {
+module.exports = (injectUserModel, injectTokenModel, injectClientModel, injectoAuthModel) => {
+    userModel = injectUserModel ? injectUserModel : userModel
+    tokenModel = injectTokenModel ? injectTokenModel : tokenModel
+    clientModel = injectClientModel ? injectClientModel : clientModel
+    oAuthModel = injectoAuthModel ? injectoAuthModel : oAuthModel
+
     return {
         registerUserInDb: registerUserInDb,
         logUserInDb: logUserInDb,
@@ -14,31 +22,34 @@ registerUserInDb = (username, password, email) => {
         password: password,
         email: email
     })
-
-    newUser.save((err, user) => {
-        if(err){
-            return console.error(err);
-        } else {
-            console.log('Create new User', user);
-        }  
-    });
 };
 
-function logUserInDb(username, password) {
-    userModel.findOne({
+logUserInDb = (username, password) => {
+    return userModel.findOne({
         username: username,
         password: password
-    }).lean().exec((err, user) => {
-        if(!user){
-            console.error(err);
-        } else {
-            console.log('Found the user'. user);
-        }
-    });
+    })
+    .then( user => {
+        return tokenModel.findOne({
+           user: {
+               username: user.username
+           } 
+        }).then(
+            token => {
+                return {
+                    accessToken: token.accessToken
+                }
+            }
+        )
+    })
+    .catch(err => {
+        console.error(err);
+    })
 };
 
-function doesUserExist (username) {
-    return userModel.findOne({
-        username: username
-    }).count() > 1
+doesUserExist = (username) => {
+    return userModel.exists({ username: username})
+        .then(i => {
+            return i
+        })  
 }
