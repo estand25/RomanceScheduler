@@ -1,10 +1,7 @@
 let userDBHelper
 
 module.exports = (injectUserDbHelper) => {
-    userDBHelper = require('../dbHelper/account')
-    // console.log('injectUserDbHelper', injectUserDbHelper);
-    // console.log('userDBHelper', userDBHelper);
-    // userDBHelper = injectUserDbHelper
+    userDBHelper = injectUserDbHelper
     
     return {
         registerUser: registerUser,
@@ -47,11 +44,11 @@ logIn = (req, res) => {
     if(!isString(username) || !isString(password)){
         return sendResponse(res, 'Invalid user information', true, null)
     }
-
-    userDBHelper().doesUserExist(username)
+    
+    userDBHelper.doesUserExist(username)
         .then( doesUserExist => {
             if(doesUserExist){
-                userDBHelper().logUserInDb(username, password)
+                userDBHelper.logUserInDb(username, password)
                     .then(accessToken => {
                         sendResponse(res, 'User was successfully log-In', null, accessToken)
                     })
