@@ -1,9 +1,10 @@
 import React, {useState} from 'react'
 import { useHistory } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { account } from '../../action'
 
 const LogIn = () => {
+    const acc = useSelector(state => state.account)
     const dispatch = useDispatch()
     const history = useHistory()
     const [username, setUserName] = useState('')

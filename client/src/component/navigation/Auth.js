@@ -22,9 +22,6 @@ const Auth = () => {
                 <Link to="/login" className='nav-link'>
                     Log-In
                 </Link>
-                <Link to="/signUp" className='nav-link'>
-                    Sign-Up
-                </Link>
             </div>
         )
     }

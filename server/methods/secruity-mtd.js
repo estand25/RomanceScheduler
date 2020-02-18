@@ -24,7 +24,6 @@ module.exports = (injectExpressApp, injectOauth2servier, injectoAuthModel) => {
     }
 }
 
-
 obtainToken = (req, res) => {
     var request = new Request(req);
     var response = new Response(res);

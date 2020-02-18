@@ -3,11 +3,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const OAuth2Server = require('oauth2-server')
 
-const accountDbHelper = require('./dbHelper/account')
-    (require('./model/user'), 
-        require('./model/token'),
-            require('./model/client'),
-                require('./oAuthModel'))
+const accountDbHelper = require('./dbHelper/account')(require('./model/user'), require('./model/token'), require('./model/client'), require('./oAuthModel'))
 const accountMth = require('./methods/account-mtd')(accountDbHelper)
 const accountRoute = require('./routes/account')(express.Router(), accountMth)
 
@@ -21,12 +17,11 @@ db.on('error', console.error.bind(console, 'MongoDB connection error: '))
 expressApp.use(bodyParser.urlencoded({ extended: true }))
 expressApp.use(cors())
 expressApp.use(bodyParser.json())
-const oAuthModel = require('./oAuthModel')
 
-const secruityMth = require('./methods/secruity-mtd')(expressApp, OAuth2Server, oAuthModel)
+const secruityMth = require('./methods/secruity-mtd')(expressApp, OAuth2Server, require('./oAuthModel'))
 const secruityRoute = require('./routes/secruity')(express.Router(), secruityMth)
 
 expressApp.use('/app', secruityRoute)
-expressApp.use('/user',accountRoute)
+expressApp.use('/user', accountRoute)
 
 expressApp.listen(apiPort, () => console.log(`Server running on port ${apiPort}`))

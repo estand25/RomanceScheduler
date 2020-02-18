@@ -1,4 +1,5 @@
 import { actions } from './type'
+import api from'../api'
 
 export const setAccountLog = (LogIn) => ({
     type: actions.ACCOUNT_LOG,
@@ -8,6 +9,13 @@ export const setAccountLog = (LogIn) => ({
 export const setAccountLogIn = (data) => ({
     type: actions.ACCOUNT_LOG_IN,
     payload: data
+})
+
+export const setAccountLogInError = (data) => ({
+    type: actions.ACCOUNT_LOG_ERROR,
+    payload: {
+        error: data
+    }
 })
 
 export const setAccountLogOut = () => ({
@@ -20,12 +28,19 @@ export const AccountLogIn = (username, password)  => {
 
         const payload = {
             username: username,
-            password: password,
-            userId: 1111,
-            email: 'a@a.com'
+            password: password
         }
-        
-        dispatch(setAccountLogIn(payload))
+
+        api.logIn(payload)
+            .then((data) => {
+                if(data.status == 200){       
+                    dispatch(setAccountLog(true))
+                    payload.token = data.data.data.accessToken
+                    dispatch(setAccountLogIn(payload))
+                }
+            }).catch(error => {
+                dispatch(setAccountLogInError(error))
+            })
     }
 }
 

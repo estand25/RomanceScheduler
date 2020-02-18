@@ -9,7 +9,7 @@ module.exports = (injectUserDbHelper) => {
     }
 }
 
-registerUser = (req, res) => {
+registerUser = (req, res) => { 
     const username = req.body.username
     const password = req.body.password
     const email = req.body.email
@@ -44,7 +44,7 @@ logIn = (req, res) => {
     if(!isString(username) || !isString(password)){
         return sendResponse(res, 'Invalid user information', true, null)
     }
-    
+
     userDBHelper.doesUserExist(username)
         .then( doesUserExist => {
             if(doesUserExist){
@@ -52,7 +52,6 @@ logIn = (req, res) => {
                     .then(accessToken => {
                         sendResponse(res, 'User was successfully log-In', null, accessToken)
                     })
-
             } else {
                 sendResponse(res, 'Failed to log-In user', 'User does not exist', null)
             }

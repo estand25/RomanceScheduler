@@ -7,7 +7,8 @@ const initialState = {
     userLoading: false,
     error: '',
     email: '',
-    password: ''
+    password: '',
+    token: ''
 }
 
 export default (state = initialState, action) => {
@@ -26,7 +27,8 @@ export default (state = initialState, action) => {
                 userLoading: false,
                 error: '',
                 email: action.payload.email,
-                password: action.payload.password
+                password: action.payload.password,
+                token: action.payload.token
             }
         }
         case actions.ACCOUNT_LOG_OUT: {
@@ -38,7 +40,21 @@ export default (state = initialState, action) => {
                 userLoading: false,
                 error: '',
                 email: '',
-                password: ''
+                password: '',
+                token: ''
+            }
+        }
+        case actions.ACCOUNT_LOG_ERROR: {
+            return {
+                ...state,
+                validUser: false,
+                username: '',
+                userId: '',
+                userLoading: false,
+                error: action.payload.error,
+                email: '',
+                password: '',
+                token: ''
             }
         }
         case actions.ACCOUNT_UPDATE_USENAME:{
