@@ -12,16 +12,12 @@ module.exports = (injectUserModel, injectTokenModel, injectClientModel, injectoA
     return {
         registerUserInDb: registerUserInDb,
         logUserInDb: logUserInDb,
-        doesUserExist: doesUserExist
+        doesUserExist: doesUserExist,
+        updateAccountInDb: updateAccountInDb
     }
 }
 
 registerUserInDb = (username, password, email) => {
-    var newUser = new userModel({
-        username: username,
-        password: password,
-        email: email
-    })
 };
 
 logUserInDb = (username, password) => {
@@ -37,6 +33,10 @@ logUserInDb = (username, password) => {
         }).then(
             token => {
                 return {
+                    userId: user._id,
+                    username: user.username,
+                    password: user.password,
+                    email: user.email,
                     accessToken: token.accessToken
                 }
             }
@@ -46,6 +46,63 @@ logUserInDb = (username, password) => {
         console.error(err);
     })
 };
+
+updateAccountInDb = (accountObj) => {
+    var username = accountObj.username
+    var password = accountObj.password
+    var email = accountObj.email
+    var userId = accountObj.userId
+
+    console.log('dbHelper AccountObj', accountObj);
+    
+    return userModel.findOne({
+        _id: userId
+    }).then(
+        user => {
+            var update_username = false, 
+                update_password = false, 
+                update_email = false
+
+            if(username){
+                user.username = username
+                update_username = true
+                console.log('dbHelper Account', update_username);
+            }
+
+            if(password){
+                user.password = password
+                update_password = true
+                console.log('dbHelper Account', update_password);
+            }
+
+            if(email){
+                user.email = email
+                update_email = true
+                console.log('dbHelper Account', update_email);
+            }
+
+            console.log('dbHelper Account', user);
+            
+            if(update_username || update_password || update_email){
+                user.save()
+
+                return {
+                    update_username: update_username,
+                    update_password: update_password,
+                    update_email: update_email
+                }
+            } else {
+                return {
+                    update_username: false,
+                    update_password: false,
+                    update_email: false
+                }
+            }
+    })
+    .catch(err => {
+        console.error(err);
+    })
+}
 
 doesUserExist = (username) => {
     return userModel.exists({ username: username})

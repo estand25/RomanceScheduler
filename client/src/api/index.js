@@ -23,8 +23,24 @@ export const logIn = (payload) => {
     )
 }
 
-const apis = {
-    logIn
+export const updateAccount = (payload) => {
+    console.log('api updateAccount', payload);
+    
+    const headers = createHeaderContent(payload.token)
+
+    return (
+        axios({
+            method: 'PUT',
+            url: baseURL + '/user/update/' + payload.userId,
+            data: payload,
+            headers: headers
+        })
+    )
 }
 
-export default apis
+const api = {
+    logIn,
+    updateAccount
+}
+
+export default api

@@ -5,36 +5,12 @@ module.exports = (injectUserDbHelper) => {
     
     return {
         registerUser: registerUser,
-        logIn: logIn
+        logIn: logIn,
+        updateAccount: updateAccount
     }
 }
 
 registerUser = (req, res) => { 
-    const username = req.body.username
-    const password = req.body.password
-    const email = req.body.email
-
-    if(!isString(username) || !isString(password) || !isString(email)){
-        return sendResponse(res, 'Invalid Credentials', true, null)
-    }
-
-    userDBHelper().doesUserExist(username)
-        .then(
-            doesUserExist => {
-                if(doesUserExist == false){
-                    return userDBHelper().registerUserInDB(username, password, email)
-                }
-                else {
-                    throw new Error('User already exists')
-                }
-            }
-        )
-        .then(
-            sendResponse(res, 'Registration was successful', null, null)
-        )
-        .catch(error => {
-            sendResponse(res, 'Failed to register user', error, null)
-        })
 }
 
 logIn = (req, res) => {
@@ -58,6 +34,40 @@ logIn = (req, res) => {
         })
         .catch(error => {
             sendResponse(res, 'Failed to log-In user', error, null)
+        })
+}
+
+updateAccount = (req, res) => {   
+    var accountObj = {
+        userId: req.params.id
+    }
+    const { username, password, email } = req.body
+    console.log('Account mth UpdateAccount', username);
+    console.log('Account mth UpdateAccount', password);
+    console.log('Account mth UpdateAccount', email);
+    console.log('Account mth UpdateAccount', req.body);
+    console.log('Account mth UpdateAccount', req.data);
+    if(username){
+        accountObj.username = req.body.username
+        console.log('Account mth UpdateAccount', req.body.username);
+    }
+
+    if(password){
+        accountObj.password = req.body.password
+        console.log('Account mth UpdateAccount', req.body.password);
+    }
+
+    if(email){
+        accountObj.email = req.body.email
+        console.log('Account mth UpdateAccount', req.body.email);
+    }
+
+    userDBHelper.updateAccountInDb(accountObj)
+        .then(update => {
+            sendResponse(res, 'Account update', null, update)
+        })    
+        .catch(error => {
+            sendResponse(res, 'Failed to log-In user', error, null)        
         })
 }
 

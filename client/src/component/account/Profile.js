@@ -16,23 +16,24 @@ const Profile = () => {
         if(username != acc.username || email != acc.email || password != acc.password){
             alert('Update successfully')
 
-            var username_ = undefined
-            var email_ = undefined
-            var password_ = undefined
+            var accountPayload = {
+                "userId": acc.userId,
+                "token": acc.token
+            }
 
             if(username != acc.username){
-                username_ = username
+                accountPayload.username = username
             }
 
             if(email != acc.email){
-                email_ = email
+                accountPayload.email = email
             }
             
             if(password != acc.password){
-                password_ = password
+                accountPayload.password = password
             }
 
-            dispatch(account.updateAccount(username_, password_, email_))
+            dispatch(account.updateAccount(accountPayload))
         }
 
         history.push('/about')

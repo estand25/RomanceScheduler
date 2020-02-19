@@ -11,10 +11,10 @@ export const setAccountLogIn = (data) => ({
     payload: data
 })
 
-export const setAccountLogInError = (data) => ({
+export const setAccountLogInError = (error) => ({
     type: actions.ACCOUNT_LOG_ERROR,
     payload: {
-        error: data
+        error: error
     }
 })
 
@@ -34,7 +34,9 @@ export const AccountLogIn = (username, password)  => {
         api.logIn(payload)
             .then((data) => {
                 if(data.status == 200){       
-                    dispatch(setAccountLog(true))
+                    dispatch(setAccountLog(true)) 
+                    payload.userId = data.data.data.userId
+                    payload.email = data.data.data.email                   
                     payload.token = data.data.data.accessToken
                     dispatch(setAccountLogIn(payload))
                 }
@@ -45,7 +47,7 @@ export const AccountLogIn = (username, password)  => {
 }
 
 export const updateAccountUserName = (username) => ({
-    type: actions.ACCOUNT_UPDATE_USENAME,
+    type: actions.ACCOUNT_UPDATE_USERNAME,
     username
 })
 
@@ -59,19 +61,33 @@ export const updateAccountEmail = (email) => ({
     email
 })
 
-export const updateAccount = (username, password, email) => {
+export const updateAccountError = (error) => ({
+    type: actions.ACCOUNT_UPDATE_ERROR,
+    error
+})
+
+export const updateAccount = (account) => {
     return async dispatch => {
-        if(username){
-            dispatch(updateAccountUserName(username))
-        }
+        api.updateAccount(account)
+            .then(data => {
+                console.log('updateAccount', data.data.data);
+                var { update_username, update_password, update_email } = data.data.data
 
-        if(password){
-            dispatch(updateAccountPassword(password))
-        }
+                if(update_username){
+                    dispatch(updateAccountUserName(account.username))
+                }
 
-        if(email){
-            dispatch(updateAccountEmail(email))
-        }
+                if(update_password){
+                    dispatch(updateAccountPassword(account.password))
+                }
+
+                if(update_email){
+                    dispatch(updateAccountEmail(account.email))
+                }
+            })
+            .catch(error => {
+                dispatch(updateAccountError(error))
+            })
     }
 }
 
