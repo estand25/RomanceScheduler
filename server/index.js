@@ -14,7 +14,7 @@ const apiPort = 3000
 
 db.on('error', console.error.bind(console, 'MongoDB connection error: '))
 
-expressApp.use(bodyParser.urlencoded({ extended: true }))
+expressApp.use(bodyParser.urlencoded({ extended: false }))
 expressApp.use(cors())
 expressApp.use(bodyParser.json())
 

@@ -42,23 +42,19 @@ updateAccount = (req, res) => {
         userId: req.params.id
     }
     const { username, password, email } = req.body
-    console.log('Account mth UpdateAccount', username);
-    console.log('Account mth UpdateAccount', password);
-    console.log('Account mth UpdateAccount', email);
-    console.log('Account mth UpdateAccount', req.body);
-    console.log('Account mth UpdateAccount', req.data);
+
     if(username){
-        accountObj.username = req.body.username
+        accountObj.username = username
         console.log('Account mth UpdateAccount', req.body.username);
     }
 
     if(password){
-        accountObj.password = req.body.password
+        accountObj.password = password
         console.log('Account mth UpdateAccount', req.body.password);
     }
 
     if(email){
-        accountObj.email = req.body.email
+        accountObj.email = email
         console.log('Account mth UpdateAccount', req.body.email);
     }
 

@@ -53,8 +53,14 @@ updateAccountInDb = (accountObj) => {
     var email = accountObj.email
     var userId = accountObj.userId
 
-    console.log('dbHelper AccountObj', accountObj);
-    
+    // possible solution or findOneAndUpdate()
+    // https://mongoosejs.com/docs/api/model.html#model_Model.findOneAndUpdate
+    // return usermodel
+    //     .findByIdAndUpdate(id, accountObj, {
+    //         new: true
+    //     }, (err, user) =>
+    // )
+
     return userModel.findOne({
         _id: userId
     }).then(
@@ -66,24 +72,28 @@ updateAccountInDb = (accountObj) => {
             if(username){
                 user.username = username
                 update_username = true
-                console.log('dbHelper Account', update_username);
+                console.log('dbHelper Account username', update_username);
+                console.log('dbHelper Account username', user.username);
             }
 
             if(password){
                 user.password = password
                 update_password = true
-                console.log('dbHelper Account', update_password);
+                console.log('dbHelper Account password', update_password);
+                console.log('dbHelper Account password', user.password);
             }
 
             if(email){
                 user.email = email
                 update_email = true
-                console.log('dbHelper Account', update_email);
+                console.log('dbHelper Account email', update_email);
+                console.log('dbHelper Account email', user.email);
             }
 
             console.log('dbHelper Account', user);
             
             if(update_username || update_password || update_email){
+                console.log('dbHelper Account updated', user);
                 user.save()
 
                 return {

@@ -28,12 +28,13 @@ export const updateAccount = (payload) => {
     
     const headers = createHeaderContent(payload.token)
 
+    console.log('api updateAccount header', headers);
+
     return (
         axios({
-            method: 'PUT',
+            method: 'PATCH',
             url: baseURL + '/user/update/' + payload.userId,
-            data: payload,
-            headers: headers
+            data: payload
         })
     )
 }
