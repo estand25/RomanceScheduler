@@ -1,7 +1,5 @@
 import React from 'react'
-import '../index.css'
-
-import regeneratorRuntime from "regenerator-runtime";
+// import '../index.css'
 
 import {
     NavBar
@@ -11,7 +9,6 @@ import {
     LogIn,
     LogOut,
     Profile,
-    SignUp,
     About,
     Setting,
     Schedule,
@@ -40,7 +37,6 @@ const App = () => {
                         <Route path="/login" exact component={LogIn} />
                         <Route path="/logout" exact component={LogOut} />
                         <Route path="/profile" exact component={Profile} />
-                        <Route path="/signUp" exact component={SignUp} />
                         <Route path="/about" exact component={About} />
                         <Route path="/schedule" exact component={Schedule} />
                         <Route path="/setting" exact component={Setting} />
