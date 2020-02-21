@@ -28,3 +28,15 @@
 .error {
     color: red;
 }
+
+.addWrapper {
+    padding: 5px;
+    border: 1px solid black;
+    margin: 10px;
+}
+
+.calendar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

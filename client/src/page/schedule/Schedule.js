@@ -1,8 +1,9 @@
 import React from 'react'
+import { FormSchedule} from '../../component'
 
 const Schedule = () => {
     return (
-        <div>Schedule</div>
+        <FormSchedule />
     )
 }
 
