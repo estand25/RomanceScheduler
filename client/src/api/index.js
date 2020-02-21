@@ -13,7 +13,7 @@ export const createHeaderContent = (token) => {
     }
 }
 
-export const logIn = (payload) => {
+export const logIn = async (payload) => {
     return (
         axios({
             method: 'POST',
@@ -24,12 +24,6 @@ export const logIn = (payload) => {
 }
 
 export const updateAccount = (payload) => {
-    console.log('api updateAccount', payload);
-    
-    const headers = createHeaderContent(payload.token)
-
-    console.log('api updateAccount header', headers);
-
     return (
         axios({
             method: 'PATCH',

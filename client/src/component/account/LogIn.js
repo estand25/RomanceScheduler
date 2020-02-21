@@ -10,9 +10,9 @@ const LogIn = () => {
     const [username, setUserName] = useState('')
     const [password, setPasssword] = useState('')
 
-    const logIn = () => {
-        alert('Log-In')
+    const logIn = async() => {
         dispatch(account.AccountLogIn(username, password))
+        
         history.push('/')
     }
 

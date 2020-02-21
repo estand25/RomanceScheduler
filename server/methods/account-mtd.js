@@ -28,8 +28,8 @@ logIn = (req, res) => {
                     .then(accessToken => {
                         sendResponse(res, 'User was successfully log-In', null, accessToken)
                     })
-            } else {
-                sendResponse(res, 'Failed to log-In user', 'User does not exist', null)
+            } else {                
+                sendResponse(res, 'User does not exist', null, null)
             }
         })
         .catch(error => {
@@ -45,17 +45,14 @@ updateAccount = (req, res) => {
 
     if(username){
         accountObj.username = username
-        console.log('Account mth UpdateAccount', req.body.username);
     }
 
     if(password){
         accountObj.password = password
-        console.log('Account mth UpdateAccount', req.body.password);
     }
 
     if(email){
         accountObj.email = email
-        console.log('Account mth UpdateAccount', req.body.email);
     }
 
     userDBHelper.updateAccountInDb(accountObj)

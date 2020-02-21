@@ -16,7 +16,7 @@ export default (state = initialState, action) => {
         case actions.ACCOUNT_LOG:
             return {
                 ...state,
-                validUser: action.payload
+                userLoading: action.payload
             }
         case actions.ACCOUNT_LOG_IN: {
             return {
@@ -57,7 +57,7 @@ export default (state = initialState, action) => {
                 token: ''
             }
         }
-        case actions.ACCOUNT_UPDATE_USENAME:{
+        case actions.ACCOUNT_UPDATE_USERNAME:{
             return {
                 ...state,
                 username: action.username

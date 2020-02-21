@@ -31,14 +31,16 @@ export const AccountLogIn = (username, password)  => {
             password: password
         }
 
-        api.logIn(payload)
+        await api.logIn(payload)
             .then((data) => {
-                if(data.status == 200){       
+                if(data.status == 200 && data.data.message == 'User was successfully log-In'){       
                     dispatch(setAccountLog(true)) 
                     payload.userId = data.data.data.userId
                     payload.email = data.data.data.email                   
                     payload.token = data.data.data.accessToken
                     dispatch(setAccountLogIn(payload))
+                } else {
+                    dispatch(setAccountLogInError(data.data.message))
                 }
             }).catch(error => {
                 dispatch(setAccountLogInError(error))
@@ -70,19 +72,18 @@ export const updateAccount = (account) => {
     return async dispatch => {
         api.updateAccount(account)
             .then(data => {
-                console.log('updateAccount', data.data.data);
-                var { update_username, update_password, update_email } = data.data.data
+                var { username, password, email } = data.data.data
 
-                if(update_username){
-                    dispatch(updateAccountUserName(account.username))
+                if(username){
+                    dispatch(updateAccountUserName(username))
                 }
 
-                if(update_password){
-                    dispatch(updateAccountPassword(account.password))
+                if(password){
+                    dispatch(updateAccountPassword(password))
                 }
 
-                if(update_email){
-                    dispatch(updateAccountEmail(account.email))
+                if(email){
+                    dispatch(updateAccountEmail(email))
                 }
             })
             .catch(error => {
