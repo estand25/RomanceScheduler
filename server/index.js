@@ -21,7 +21,12 @@ expressApp.use(bodyParser.json())
 const secruityMth = require('./methods/secruity-mtd')(expressApp, OAuth2Server, require('./oAuthModel'))
 const secruityRoute = require('./routes/secruity')(express.Router(), secruityMth)
 
+const scheduleDbHelper = require('./dbHelper/schedule')(require('./model/schedule'), require('./model/user'))
+const scheduleMth = require('./methods/schedule-mtd')(scheduleDbHelper)
+const scheduleRoute = require('./routes/schedule')(express.Router(), scheduleMth, secruityMth)
+
 expressApp.use('/app', secruityRoute)
 expressApp.use('/user', accountRoute)
+expressApp.use('/schedule', scheduleRoute)
 
 expressApp.listen(apiPort, () => console.log(`Server running on port ${apiPort}`))

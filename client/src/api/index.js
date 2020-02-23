@@ -33,9 +33,29 @@ export const updateAccount = (payload) => {
     )
 }
 
+export const addschedule = (data) => {
+    return (
+        axios({
+            method: 'POST',
+            url: baseURL + '/schedule/add',
+            data
+        })
+    )
+}
+
+export const getAllSchedule = () => {
+    return (
+        axios({
+            method: 'GET',
+            url: baseURL + '/schedule'
+        })
+    )
+}
+
 const api = {
     logIn,
-    updateAccount
+    updateAccount,
+    addschedule
 }
 
 export default api

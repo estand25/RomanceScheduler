@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { AddSchedule, ItemSchedule } from '../../component'
+import { AddSchedule, ItemSchedule, ListSchedule } from '../../component'
 
 const FormSchedule = () => {
     const [add, onAdd] = useState(false)
@@ -15,7 +15,9 @@ const FormSchedule = () => {
             />
             <ItemSchedule
                 add={add}
+                onChange={onAdd}
             />
+            <ListSchedule />
         </div>
     )
 }

@@ -1,7 +1,7 @@
-var userModel
-var tokenModel
-var clientModel
-var oAuthModel
+let userModel
+let tokenModel
+let clientModel
+let oAuthModel
 
 module.exports = (injectUserModel, injectTokenModel, injectClientModel, injectoAuthModel) => {
     userModel = injectUserModel ? injectUserModel : userModel
