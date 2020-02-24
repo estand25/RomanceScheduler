@@ -1,25 +1,31 @@
-import React, {useEffect} from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { schedule } from '../../action'
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { Schedule} from '../../component'
 
 const ListSchedule = () => {
-    const dispatch = useDispatch()
-    const selector = useSelector(state => state.schedule)
-
-    useEffect(
-        () => {
-            dispatch(schedule.getAllSchedule)
-        },[]
-    )
+    const schSeletor = useSelector(state => state.schedule)
 
     const List = () => {
-        console.log('List Schedule', selector.scheduleList);
-        
-        return (
-            <div>
-                {'List Schedule'}
-            </div>
-        )
+        let schList = schSeletor.scheduleList
+
+        if(schList){
+            return (
+                <div>
+                    {schList
+                        .map(item => (
+                            <Schedule
+                                key={item._id}
+                                item={item}
+                            />
+                        ))
+                    }
+                </div>
+            )
+        } else {
+            return (
+                <div>{'You have not current schedules'}</div>
+            )
+        }
     }
 
     return (

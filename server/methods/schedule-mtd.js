@@ -5,16 +5,20 @@ module.exports = (injectScheduleDbHelper) => {
 
     return {
         addSchedule: addSchedule,
-        getAllSchedule: getAllSchedule
+        getAllSchedule: getAllSchedule,
+        updateSchedule: updateSchedule,
+        deleteSchedule: deleteSchedule
     }
 }
 
 addSchedule = (req, res) => {
-    console.log('addSchedule', req.body);
-    
     scheduleDBHelper.addScheduleInDb(req.body)
         .then(schedule => {
-            sendResponse(res, 'Add Schedule successfully', null, schedule)
+            if(schedule){
+                sendResponse(res, 'Add Schedule successfully', null, schedule)
+            } else {
+                sendResponse(res, 'Failed to add schedule', 'User does not exist to add schedule', null)
+            }
         })
         .catch(error => {
             sendResponse(res, 'Failed to add schedule', error, null)
@@ -22,7 +26,7 @@ addSchedule = (req, res) => {
 }
 
 getAllSchedule = (req, res) => {
-    scheduleDBHelper.addScheduleInDb(req.body)
+    scheduleDBHelper.getAllScheduleInDb()
         .then(schedule => {
             sendResponse(res, 'All Schedule received successfully', null, schedule)
         })
@@ -31,8 +35,23 @@ getAllSchedule = (req, res) => {
         })
 }
 
+updateSchedule = (req, res) => {
 
+}
 
+deleteSchedule = (req, res) => {
+    scheduleDBHelper.deleteScheduleInDb(req.body)
+        .then(schedule => {
+            if(schedule){
+                sendResponse(res, 'Schedule successfully Deleted', null, schedule)
+            } else {
+                sendResponse(res, 'Failed to delete schedule', 'Schedule has already been removed', null)
+            }
+        })
+        .catch(error => {
+            sendResponse(res, 'Failed to delete schedule', error, null)
+        })
+}
 
 sendResponse = (res, message, error, data) => {
     var json = {}

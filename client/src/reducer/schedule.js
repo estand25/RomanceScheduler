@@ -3,6 +3,7 @@ import { actions } from '../action/type'
 const initialState = {
     scheduleList: [],
     schedule: {},
+    schedulesLoading: false,
     activityList: [
         {value: 'movienight', label: 'Movie Night'},
         {value: 'parkwalk', label: 'Park Walk'},
@@ -23,18 +24,13 @@ const initialState = {
 export default (state = initialState, action) => {
     switch (action.type) {
         case actions.SCHEDULE_ADD:
-            console.log('SCHEDULE_ADD', state);
-            console.log('SCHEDULE_ADD', state.scheduleList);
-            console.log('SCHEDULE_ADD', initialState.scheduleList);
-            console.log('SCHEDULE_ADD', action.schedule);
             
             var a = {
                 ...state,
                 schedule: action.schedule,
                 scheduleList: [...initialState.scheduleList, action.schedule]
-            }  
-            
-
+            }
+        
             return a            
         case actions.SCHEDULE_GET_ACTIVITIES:
             return {
@@ -51,10 +47,22 @@ export default (state = initialState, action) => {
                 ...state,
                 typeList: initialState.typeList
             }
+        case actions.SCHEDULE_GET_ALL_LOADING:
+            return {
+                ...state,
+                schedulesLoading: action.payload
+            }
         case actions.SCHEDULE_GET_ALL:
             return {
                 ...state,
-                scheduleList: state.scheduleList
+                scheduleList: action.payload,
+                schedulesLoading: false
+            }
+        case actions.SCHEDULE_GET_ALL_ERROR:
+            return {
+                ...state,
+                schedulesLoading: action.payload,
+                schedulesLoading: false
             }
         default:
             return state

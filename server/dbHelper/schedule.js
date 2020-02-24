@@ -7,7 +7,9 @@ module.exports = (injectScheduleMode, injectUserModel) => {
 
     return {
         addScheduleInDb: addScheduleInDb,
-        getAllScheduleInDb: getAllScheduleInDb
+        getAllScheduleInDb: getAllScheduleInDb,
+        updateScheduleInDb: updateScheduleInDb,
+        deleteScheduleInDb: deleteScheduleInDb
     }
 }
 
@@ -18,29 +20,65 @@ addScheduleInDb = (schedule) =>{
         })
         .then(
             user => {
-                var scheduleInstance = new scheduleModel(schedule)
-                console.log('addScheduleInDb', schedule);
-                
-                scheduleInstance.save((err, schedule) => {
-                    if(err){
-                        return console.error(err);
-                    }
-                    console.log('addScheduleInDb', schedule);
+                if(user){
+                    var scheduleInstance = new scheduleModel(schedule) 
+                    scheduleInstance.save((err) => {
+                        if(err){
+                            return console.error(err);
+                        }
+                    })
 
-                    return schedule
-                })
+                    return scheduleInstance
+                } else {
+                    return null
+                }
             }
         )
 }
 
-getAllScheduleInDb = (schedule) => {
+getAllScheduleInDb = () => {
+    return scheduleModel
+        .find({}, (err, allSchedule) => {
+            if(err){
+                console.error(err);
+            }
+
+            return allSchedule
+        })
+}
+
+updateScheduleInDb = (schedule) => {
+
+}
+
+deleteScheduleInDb = (schedule) => {
     return userModel
-        .find({
+        .findOne({
             _id: schedule.rUserId
         })
         .then(
-            allSchedule => {
-                return allSchedule
+            user => {
+                return scheduleModel
+                    .findOne({
+                        _id: schedule._id
+                    })
+                    .then(
+                        sch => {
+                            if(sch){
+                                sch.remove({_id: schedule._id}, (err) => {
+                                        if(err){
+                                            return console.error(err);
+                                        }
+                                    }) 
+                                    return schedule
+                            } else {
+                                return null
+                            }
+                        }
+                    )
+                    .catch(err => {
+                        return console.error(err);
+                    })
             }
         )
 }

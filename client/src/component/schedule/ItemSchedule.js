@@ -5,7 +5,7 @@ import Calendar from 'react-calendar'
 import {schedule} from '../../action'
 import RandomDateGene from 'random-date-generator'
 
-const ItemSchedule = ({add, onChange}) => {
+const ItemSchedule = ({add, onChange, setShow, setMessage}) => {
     const dispatch = useDispatch()
     const selector = useSelector(state => state.schedule)
     const acc = useSelector(state => state.account)
@@ -21,7 +21,7 @@ const ItemSchedule = ({add, onChange}) => {
         dispatch(schedule.getScheduleActivites())
     },[])
 
-    const onAdd = () => {
+    const onAdd = async() => {
         var newSchedule = {
             rType: romanceItem.value,
             rScheduleDte: romanceDte.toDateString(),
@@ -37,12 +37,33 @@ const ItemSchedule = ({add, onChange}) => {
             newSchedule.rAction = actionItem.value
         }
         
-        dispatch(schedule.addSchedule(newSchedule))
+        let payload = {
+            userId: acc.userId,
+            token: acc.token
+        }
+        
+        let message = [`Schedule has been successfully added to your calendar `,
+        `You have added the following schedule item `,
+        ` - Type: ${romanceItem.label} `,
+        activityItem.value ? 
+        ` - Activity: ${activityItem.label} ` :
+        ` - Action: ${actionItem.label} `,
+        ` - Schedule Date: ${romanceDte.toDateString()}` ]
+        
+        setMessage(message)
+
+        dispatch(schedule.addScheduleToDb(newSchedule))
+            .then(i => { 
+                dispatch(schedule.getSchedulesToDb(payload))
+            })
 
         onRomanceItemSelect('')
         onActionItemSelect('')
         onActivityItemSelect('')
         onRomanceDte(new Date())
+
+        setShow(true)
+        onChange(!add)
     }
 
     const onCancel = () => {

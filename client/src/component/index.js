@@ -10,6 +10,7 @@ import AddSchedule from './schedule/AddSchedule'
 import ListSchedule from './schedule/ListSchedule'
 import ItemSchedule from './schedule/ItemSchedule'
 import FormSchedule from './schedule/FormSchedule'
+import Schedule from './schedule/Schedule'
 
 export {
     AccountLogIn,
@@ -23,5 +24,6 @@ export {
     AddSchedule,
     ItemSchedule,
     ListSchedule,
-    FormSchedule
+    FormSchedule,
+    Schedule
 }

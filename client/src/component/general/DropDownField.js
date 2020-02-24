@@ -9,6 +9,7 @@ const DropDownField = ({label, value, onChange, options}) =>{
                 value={value}
                 onChange={onChange}
                 options={options}
+                defaultValue={value}
             />
         </div>
     )
