@@ -35,9 +35,7 @@ getAllSchedule = (req, res) => {
         })
 }
 
-updateSchedule = (req, res) => {
-
-}
+updateSchedule = (req, res) => {}
 
 deleteSchedule = (req, res) => {
     scheduleDBHelper.deleteScheduleInDb(req.body)

@@ -1,10 +1,10 @@
 import React, {useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { AcceptRejectBtn, EditableField } from '../general'
+import { AcceptRejectBtn, EditableField, EditableCalendarField } from '../general'
 import { schedule } from '../../action'
 
-const Schedule = ({item}) => {
-    const {rType, rActivity, rAction} = item
+const Schedule = ({item, setShow, setMessage, setTitle, setVariantType}) => {
+    const {rType, rActivity, rAction, rScheduleDte} = item
     const dispatch = useDispatch()
     const accSeletor = useSelector(state => state.account)
     const schSeletor = useSelector(state => state.schedule)
@@ -15,19 +15,54 @@ const Schedule = ({item}) => {
     }
 
     const onDelete = () => {
-        // alert('Delete Item')
         var deleteSchedule = Object.assign({}, item)
         deleteSchedule.token = accSeletor.token
         
-        console.log('onDelete', deleteSchedule);
+        dispatch(schedule.deleteScheduleToDb(deleteSchedule))
+
+        let message = ['Schedule has been successfully deleted from your calendar ',
+        'you have deleted the following schedule item',
+        ` - Type: ${schSeletor.typeList.filter(i => i.value == rType)[0].label} `,
+        rActivity ? 
+        ` - Activity: ${schSeletor.activityList.filter(i => i.value == rActivity)[0].label} ` :
+        ` - Action: ${schSeletor.actionList.filter(i => i.value == rAction)[0].label} `,
+        ` - Schedule Date: 
+        ${new Intl.DateTimeFormat("en-GB", 
+        {
+            year: "numeric",
+            month: "long",
+            day: "2-digit"
+        }).format(new Date(rScheduleDte))}` ]
         
-        // dispatch(schedule.deleteScheduleToDb())
+        setMessage(message)
+        setTitle('Schedule Deleted Successfully')
+        setVariantType('danger')
+        setShow(true)
     }
 
     const onUpdate = () => {
         var updateSchedule = Object.assign({}, item)
+        updateSchedule.token = accSeletor.token
 
-        console.log('onUpdate', updateSchedule);
+        console.log('onUpdate', updateSchedule);        
+        let message = ['Schedule has been successfully update from your calendar ',
+        'you have updated the following schedule item',
+        ` - Type: ${schSeletor.typeList.filter(i => i.value == rType)[0].label} `,
+        rActivity ? 
+        ` - Activity: ${schSeletor.activityList.filter(i => i.value == rActivity)[0].label} ` :
+        ` - Action: ${schSeletor.actionList.filter(i => i.value == rAction)[0].label} `,
+        ` - Schedule Date: 
+        ${new Intl.DateTimeFormat("en-GB", 
+        {
+            year: "numeric",
+            month: "long",
+            day: "2-digit"
+        }).format(new Date(rScheduleDte))}` ]
+        
+        setMessage(message)
+        setTitle('Schedule Updated Successfully')
+        setVariantType('primary')
+        setShow(true)
     }
 
     return (
@@ -60,6 +95,11 @@ const Schedule = ({item}) => {
                     list={schSeletor.actionList}
                 />
             }
+            <EditableCalendarField
+                edit={change}
+                labelText={'Romance Date'}
+                value={rScheduleDte}
+            />
             { change ? 
                 <AcceptRejectBtn
                     acceptStyle='btn btn-outline-primary'

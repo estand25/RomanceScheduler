@@ -5,7 +5,7 @@ import Calendar from 'react-calendar'
 import {schedule} from '../../action'
 import RandomDateGene from 'random-date-generator'
 
-const ItemSchedule = ({add, onChange, setShow, setMessage}) => {
+const ItemSchedule = ({add, onChange, setShow, setMessage, setTitle, setVariantType}) => {
     const dispatch = useDispatch()
     const selector = useSelector(state => state.schedule)
     const acc = useSelector(state => state.account)
@@ -15,11 +15,13 @@ const ItemSchedule = ({add, onChange, setShow, setMessage}) => {
     const [actionItem, onActionItemSelect] = useState('')
     const [romanceDte, onRomanceDte] = useState(new Date())
 
-    useEffect(() => {
-        dispatch(schedule.getScheduleTypes())
-        dispatch(schedule.getScheduleActions())
-        dispatch(schedule.getScheduleActivites())
-    },[])
+    useEffect(
+        () => {
+            dispatch(schedule.getScheduleTypes())
+            dispatch(schedule.getScheduleActions())
+            dispatch(schedule.getScheduleActivites())
+        },[]
+    )
 
     const onAdd = async() => {
         var newSchedule = {
@@ -51,6 +53,8 @@ const ItemSchedule = ({add, onChange, setShow, setMessage}) => {
         ` - Schedule Date: ${romanceDte.toDateString()}` ]
         
         setMessage(message)
+        setTitle('Schedule Added Successfully')
+        setVariantType('success')
 
         dispatch(schedule.addScheduleToDb(newSchedule))
             .then(i => { 

@@ -1,27 +1,13 @@
-import React, {useState, useEffect} from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { schedule } from '../../action'
+import React, {useState} from 'react'
 import { MessageAlert } from '../general'
 import { AddSchedule, ItemSchedule, ListSchedule } from '../../component'
 
 const FormSchedule = () => {
-    const dispatch = useDispatch()
-    const accSeletor = useSelector(state => state.account)
     const [add, onAdd] = useState(false)
-
     const [show, setShow] = useState(false)
     const [message, setMessage] = useState('')
-
-    useEffect(
-        () => {
-            let payload = {
-                userId: accSeletor.userId,
-                token: accSeletor.token
-            }
-
-            dispatch(schedule.getSchedulesToDb(payload))
-        },[]
-    )
+    const [title, setTitle] = useState('')
+    const [variantType, setVariantType] = useState('')
 
     const addSchedule = () =>{
         onAdd(!add)
@@ -32,9 +18,9 @@ const FormSchedule = () => {
             <MessageAlert
                 show={show}
                 setShow={setShow}
-                heading={'Schedule Add Successfully'}
+                heading={title}
                 body={message}
-                variantType={'success'}
+                variantType={variantType}
             />
             <AddSchedule
                 addSchedule={addSchedule}
@@ -44,8 +30,15 @@ const FormSchedule = () => {
                 onChange={onAdd}
                 setShow={setShow}
                 setMessage={setMessage}
+                setTitle={setTitle}
+                setVariantType={setVariantType}
             />
-            <ListSchedule />
+            <ListSchedule 
+                setShow={setShow}
+                setMessage={setMessage}
+                setTitle={setTitle}
+                setVariantType={setVariantType}
+            />
         </div>
     )
 }

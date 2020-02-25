@@ -101,7 +101,7 @@ export const updateSchedule = (payload) => {
  * deleteSchedule
  * @param {*} payload 
  */
-export const deleteSchedule = (payload) => {
+export const deleteSchedule = async (payload) => {
     let headers = createHeaderContent(payload.token)
     delete payload.token
     

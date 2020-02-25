@@ -74,12 +74,19 @@ export const getSchedulesToDb = (payload) => {
 export const deleteScheduleToDb = (payload) => {
     return async dispatch => {
         dispatch(getAllScheduleLoading(true))
-
-        api.deleteSchedule(payload)
+        console.log('deleteScheduleToDb');
+        
+        await api.deleteSchedule(payload)
             .then(
                 data => {
+                    delete payload.token
+                    var item = Object.assign({}, payload)
+
                     var userList = data.data.data.filter(i => i.rUserId == payload.userId)
-                    // Remove delete schedule from list
+                    console.log('Current list', userList);
+                    userList.splice(userList.indexOf(item)-1,1)
+                    console.log('Current list after removal', userList);
+
                     dispatch(getAllSchedule())
                 }
             )

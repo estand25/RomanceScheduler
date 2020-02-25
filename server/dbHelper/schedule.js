@@ -47,9 +47,7 @@ getAllScheduleInDb = () => {
         })
 }
 
-updateScheduleInDb = (schedule) => {
-
-}
+updateScheduleInDb = (schedule) => {}
 
 deleteScheduleInDb = (schedule) => {
     return userModel
