@@ -1,8 +1,7 @@
 import React, {useState} from 'react'
 import {DropDownField} from '../general'
 
-const EditableField = ({edit, labelText, selection, list}) => {
-    const [valueObj, setValueObj] = useState(list.filter(i => i.value == selection)[0])
+const EditableField = ({edit, labelText, list, valueObj, setValueObj}) => {
 
     if(edit){
         return (

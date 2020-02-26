@@ -84,21 +84,21 @@ const ItemSchedule = ({add, onChange, setShow, setMessage, setTitle, setVariantT
                         onChange={r => onRomanceItemSelect(r)}
                         options={selector.typeList}
                     />
-                    {   romanceItem.value == '' || romanceItem.value == undefined ?
-                            <></> :
-                            romanceItem.value == 'activity' ?
-                                <DropDownField
-                                    label={'Romance Activity:'}
-                                    value={activityItem}
-                                    onChange={i => onActivityItemSelect(i)}
-                                    options={selector.activityList}
-                                /> :
-                                <DropDownField
-                                    label={'Romance Action:'}
-                                    value={actionItem}
-                                    onChange={i => onActionItemSelect(i)}
-                                    options={selector.actionList}
-                                />
+                    {romanceItem.value == '' || romanceItem.value == undefined ?
+                        <></> :
+                        romanceItem.value == 'activity' ?
+                            <DropDownField
+                                label={'Romance Activity:'}
+                                value={activityItem}
+                                onChange={i => onActivityItemSelect(i)}
+                                options={selector.activityList}
+                            /> :
+                            <DropDownField
+                                label={'Romance Action:'}
+                                value={actionItem}
+                                onChange={i => onActionItemSelect(i)}
+                                options={selector.actionList}
+                            />
                     }
                     <div className='calendar'>
                         <Calendar

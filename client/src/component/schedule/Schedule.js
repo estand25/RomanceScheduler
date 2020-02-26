@@ -8,24 +8,38 @@ const Schedule = ({item, setShow, setMessage, setTitle, setVariantType}) => {
     const dispatch = useDispatch()
     const accSeletor = useSelector(state => state.account)
     const schSeletor = useSelector(state => state.schedule)
+    const {typeList, activityList, actionList} = schSeletor
+
     const [change, onChange] = useState(false)
+    const [rTypeValue, setRtypeValue] = useState(typeList.filter(i => i.value == rType)[0])
+    const [rActivityValue, setRActivityValue] = useState(activityList.filter(i => i.value == rActivity)[0])
+    const [rActionValue, setRActionValue] = useState(actionList.filter(i => i.value == rAction)[0])
+    const [dte, setDte] = useState(new Date(rScheduleDte))
 
     const onEdit = () => {
         onChange(!change)
     }
 
     const onDelete = () => {
-        var deleteSchedule = Object.assign({}, item)
+        let deleteSchedule = Object.assign({}, item)
         deleteSchedule.token = accSeletor.token
         
+        let payload = {
+            userId: accSeletor.userId,
+            token: accSeletor.token
+        }
+
         dispatch(schedule.deleteScheduleToDb(deleteSchedule))
+            .then(i => { 
+                dispatch(schedule.getSchedulesToDb(payload))
+            })
 
         let message = ['Schedule has been successfully deleted from your calendar ',
         'you have deleted the following schedule item',
-        ` - Type: ${schSeletor.typeList.filter(i => i.value == rType)[0].label} `,
+        ` - Type: ${typeList.filter(i => i.value == rType)[0].label} `,
         rActivity ? 
-        ` - Activity: ${schSeletor.activityList.filter(i => i.value == rActivity)[0].label} ` :
-        ` - Action: ${schSeletor.actionList.filter(i => i.value == rAction)[0].label} `,
+        ` - Activity: ${activityList.filter(i => i.value == rActivity)[0].label} ` :
+        ` - Action: ${actionList.filter(i => i.value == rAction)[0].label} `,
         ` - Schedule Date: 
         ${new Intl.DateTimeFormat("en-GB", 
         {
@@ -47,17 +61,17 @@ const Schedule = ({item, setShow, setMessage, setTitle, setVariantType}) => {
         console.log('onUpdate', updateSchedule);        
         let message = ['Schedule has been successfully update from your calendar ',
         'you have updated the following schedule item',
-        ` - Type: ${schSeletor.typeList.filter(i => i.value == rType)[0].label} `,
+        ` - Type: ${typeList.filter(i => i.value == rTypeValue.value)[0].label} `,
         rActivity ? 
-        ` - Activity: ${schSeletor.activityList.filter(i => i.value == rActivity)[0].label} ` :
-        ` - Action: ${schSeletor.actionList.filter(i => i.value == rAction)[0].label} `,
+        ` - Activity: ${activityList.filter(i => i.value == rActivityValue.value)[0].label} ` :
+        ` - Action: ${actionList.filter(i => i.value == rActionValue.value)[0].label} `,
         ` - Schedule Date: 
         ${new Intl.DateTimeFormat("en-GB", 
         {
             year: "numeric",
             month: "long",
             day: "2-digit"
-        }).format(new Date(rScheduleDte))}` ]
+        }).format(new Date(dte))}` ]
         
         setMessage(message)
         setTitle('Schedule Updated Successfully')
@@ -78,27 +92,31 @@ const Schedule = ({item, setShow, setMessage, setTitle, setVariantType}) => {
             <EditableField
                 edit={change}
                 labelText={'Romance Type'}
-                selection={rType}
-                list={schSeletor.typeList}
+                list={typeList}
+                valueObj={rTypeValue}
+                setValueObj={setRtypeValue}
             />
             {rActivity ?
                 <EditableField
                     edit={change}
                     labelText={'Romance Activity'}
-                    selection={rActivity}
-                    list={schSeletor.activityList}
+                    list={activityList}
+                    valueObj={rActivityValue}
+                    setValueObj={setRActivityValue}
                 /> :
                 <EditableField
                     edit={change}
                     labelText={'Romance Action'}
-                    selection={rAction}
-                    list={schSeletor.actionList}
+                    list={actionList}
+                    valueObj={rActionValue}
+                    setValueObj={setRActionValue}
                 />
             }
             <EditableCalendarField
                 edit={change}
                 labelText={'Romance Date'}
-                value={rScheduleDte}
+                dte={dte}
+                setDte={setDte}
             />
             { change ? 
                 <AcceptRejectBtn

@@ -35,7 +35,19 @@ getAllSchedule = (req, res) => {
         })
 }
 
-updateSchedule = (req, res) => {}
+updateSchedule = (req, res) => {
+    scheduleDBHelper.updateScheduleInDb(req.body)
+        .then(schedule =>{
+            if(schedule){
+                sendResponse(res, 'Schedule successfully Updated', null, schedule)
+            } else {
+                sendResponse(res, 'Failed to update schedule', 'Schedule has not been updated', null)
+            }
+        })
+        .catch(error => {
+            sendResponse(res, 'Failed to update schedule', error, null)
+        })
+}
 
 deleteSchedule = (req, res) => {
     scheduleDBHelper.deleteScheduleInDb(req.body)
@@ -43,7 +55,7 @@ deleteSchedule = (req, res) => {
             if(schedule){
                 sendResponse(res, 'Schedule successfully Deleted', null, schedule)
             } else {
-                sendResponse(res, 'Failed to delete schedule', 'Schedule has already been removed', null)
+                sendResponse(res, 'Failed to delete schedule', 'Schedule does not exist to delete', null)
             }
         })
         .catch(error => {

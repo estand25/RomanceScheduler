@@ -8,7 +8,6 @@ const ListSchedule = ({setShow, setMessage, setTitle, setVariantType}) => {
     const dispatch = useDispatch()
     const schSeletor = useSelector(state => state.schedule)
     const accSeletor = useSelector(state => state.account)
-    // const [list, setList] = useState(schSeletor.scheduleList)
 
     useEffect(
         () => {
@@ -22,7 +21,7 @@ const ListSchedule = ({setShow, setMessage, setTitle, setVariantType}) => {
     )  
 
     const List = () => {
-        if(schSeletor.scheduleList){
+        if(schSeletor.scheduleList.length > 0){
             return (
                 <div>
                     {schSeletor.scheduleList
@@ -41,25 +40,11 @@ const ListSchedule = ({setShow, setMessage, setTitle, setVariantType}) => {
             )
         } else {
             return (
-                <div>{'You have not current schedules'}</div>
+                <div className='addWrapper'>
+                    {'You have not current schedules'}
+                </div>
             )
         }
-    }
-
-    if(schSeletor.schedulesLoading){
-        return (
-            <Anime easing="easeOutElastic"
-                   duration={1000}
-                   direction="alternate"
-                   loop={true}
-                   delay={(el, index) => index * 240}
-                   translateX='13rem'
-                   scale={[.75, .9]}>
-              <div className="blue"/>
-              <div className="green"/>
-              <div className="red"/>
-            </Anime>
-          )
     }
 
     return (

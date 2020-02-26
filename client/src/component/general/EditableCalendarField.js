@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import Calendar from 'react-calendar'
 
-const EditableCalendarField = ({edit, labelText, value}) => {
-    const [dte, setDte] = useState(new Date(value))
+const EditableCalendarField = ({edit, labelText, dte, setDte}) => {
 
     if(edit){
         return (

@@ -47,7 +47,45 @@ getAllScheduleInDb = () => {
         })
 }
 
-updateScheduleInDb = (schedule) => {}
+updateScheduleInDb = (schedule) => {
+    return userModel
+        .findOne({
+            _id: schedule.rUserId
+        })
+        .then(
+            user => {
+                return scheduleModel
+                    .findOne({
+                        _id: schedule._id
+                    })
+                    .then(
+                        sch => {
+                            if(sch){
+                                sch.remove({_id: schedule._id}, (err) => {
+                                    if(err){
+                                        return console.error(err);
+                                    }
+                                }) 
+
+                                let scheduleInstance = new scheduleModel(schedule) 
+                                scheduleInstance.save((err) => {
+                                    if(err){
+                                        return console.error(err);
+                                    }
+                                })
+
+                                return scheduleInstance
+                            } else {
+                                return null
+                            }
+                        }
+                    )
+                    .catch(err => {
+                        return console.error(err);
+                    })               
+            }
+        )
+}
 
 deleteScheduleInDb = (schedule) => {
     return userModel
