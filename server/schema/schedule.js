@@ -1,7 +1,6 @@
 module.exports = {
     rType: String,
     rScheduleDte: String,
-    rActivity: String,
-    rAction: String,
+    rResult: String,
     rUserId: String
 }

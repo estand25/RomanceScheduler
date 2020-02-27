@@ -8,7 +8,7 @@ const EditableCalendarField = ({edit, labelText, dte, setDte}) => {
             <div className='calendar'>
                 <Calendar
                     value={dte}
-                    onChange={d => setDte(dte)}
+                    onChange={d => setDte(d)}
                 />
             </div>
         )

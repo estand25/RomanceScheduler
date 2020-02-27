@@ -1,8 +1,9 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {DropDownField} from '../general'
 
 const EditableField = ({edit, labelText, list, valueObj, setValueObj}) => {
-
+    console.log('EditableField', valueObj);
+    
     if(edit){
         return (
             <DropDownField

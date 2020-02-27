@@ -32,11 +32,11 @@ const ItemSchedule = ({add, onChange, setShow, setMessage, setTitle, setVariantT
         }
 
         if(activityItem.value){
-            newSchedule.rActivity = activityItem.value
+            newSchedule.rResult = activityItem.value
         }
 
         if(actionItem.value){
-            newSchedule.rAction = actionItem.value
+            newSchedule.rResult = actionItem.value
         }
         
         let payload = {
