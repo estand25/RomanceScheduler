@@ -1,0 +1,48 @@
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+}
+
+.logWrapper {
+    margin: 0 30px;
+    border: 1px;
+}
+
+.logLabel {
+    margin: 5px;
+}
+
+.logSpace {
+    padding: 5px;
+}
+
+.error {
+    color: red;
+}
+
+.addWrapper {
+    padding: 5px;
+    border: 1px solid black;
+    margin: 10px;
+}
+
+.listWrapper {
+    padding: 5px;
+    border: 1px solid black;
+    margin: 10px;
+}
+
+.calendar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
