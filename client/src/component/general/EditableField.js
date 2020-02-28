@@ -1,22 +1,33 @@
 import React from 'react'
 import {DropDownField} from '../general'
+import _ from 'lodash'
 
-const EditableField = ({edit, labelText, list, valueObj, setValueObj}) => {
-    console.log('EditableField', valueObj);
-    
+const EditableField = ({edit, labelText, list, valueObj, setValueObj}) => {    
+    let valueObject
+
+    if(_.isArray(valueObj)){
+        valueObject = Object.assign({}, valueObj[0])
+    } else {
+        valueObject = Object.assign({}, valueObj)
+    }
+
     if(edit){
         return (
             <DropDownField
                 label={labelText + ': '}
-                value={valueObj}
+                value={valueObject}
                 onChange={i => setValueObj(i)}
                 options={list}
             />
         )
     } else {
+        if(valueObject == undefined){
+            return <></>
+        }
+
         return (
             <div className='logLabel'>
-                {labelText + ': ' + valueObj.label}
+                {labelText + ': ' + valueObject.label}
             </div>
         )
     }

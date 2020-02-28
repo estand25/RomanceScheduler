@@ -9,11 +9,18 @@ const ItemSchedule = ({add, onChange, setShow, setMessage, setTitle, setVariantT
     const dispatch = useDispatch()
     const selector = useSelector(state => state.schedule)
     const acc = useSelector(state => state.account)
+    const {typeList, activityStr, actionStr, resultList } = selector
 
     const [romanceItem, onRomanceItemSelect] = useState('')
+    const [romanceDte, onRomanceDte] = useState(new Date())
+    const [romanceResult, onRomanceResult] = useState('')
+    const [label, onLabel] = useState('Activity')
+    const [displayList, setDisplayList] = useState(resultList.filter((i) => {
+        return !activityStr.split(',').includes(i.value)
+    }))
+
     const [activityItem, onActivityItemSelect] = useState('')
     const [actionItem, onActionItemSelect] = useState('')
-    const [romanceDte, onRomanceDte] = useState(new Date())
 
     useEffect(
         () => {
@@ -27,16 +34,9 @@ const ItemSchedule = ({add, onChange, setShow, setMessage, setTitle, setVariantT
         var newSchedule = {
             rType: romanceItem.value,
             rScheduleDte: romanceDte.toDateString(),
+            rResult:romanceResult.value,
             rUserId: acc.userId,
             token: acc.token
-        }
-
-        if(activityItem.value){
-            newSchedule.rResult = activityItem.value
-        }
-
-        if(actionItem.value){
-            newSchedule.rResult = actionItem.value
         }
         
         let payload = {
@@ -47,10 +47,14 @@ const ItemSchedule = ({add, onChange, setShow, setMessage, setTitle, setVariantT
         let message = [`Schedule has been successfully added to your calendar `,
         `You have added the following schedule item `,
         ` - Type: ${romanceItem.label} `,
-        activityItem.value ? 
-        ` - Activity: ${activityItem.label} ` :
-        ` - Action: ${actionItem.label} `,
-        ` - Schedule Date: ${romanceDte.toDateString()}` ]
+        ` - ${label}: ${romanceResult.label}`,,
+        ` - Schedule Date: 
+        ${new Intl.DateTimeFormat("en-GB", 
+        {
+            year: "numeric",
+            month: "long",
+            day: "2-digit"
+        }).format(new Date(romanceDte))}`]
         
         setMessage(message)
         setTitle('Schedule Added Successfully')
@@ -62,8 +66,7 @@ const ItemSchedule = ({add, onChange, setShow, setMessage, setTitle, setVariantT
             })
 
         onRomanceItemSelect('')
-        onActionItemSelect('')
-        onActivityItemSelect('')
+        onRomanceResult('')
         onRomanceDte(new Date())
 
         setShow(true)
@@ -74,6 +77,25 @@ const ItemSchedule = ({add, onChange, setShow, setMessage, setTitle, setVariantT
         onChange(!add)
     }
 
+    const chgTypeMore = (i) => {
+        onRomanceItemSelect(i);
+        let list;
+
+        if(i.value == 'activity'){
+            list = resultList.filter((i) => {
+                return !activityStr.split(',').includes(i.value)
+            })
+            onLabel('Activity')
+        } else {
+            list = resultList.filter((i) => {
+                return !actionStr.split(',').includes(i.value)
+            })
+            onLabel('Action')
+        }
+        
+        setDisplayList(list)
+        onRomanceResult('')
+    }
     const Item = () => {
         if(add){
             return (
@@ -81,25 +103,15 @@ const ItemSchedule = ({add, onChange, setShow, setMessage, setTitle, setVariantT
                     <DropDownField
                         label={'Romance Item:'}
                         value={romanceItem}
-                        onChange={r => onRomanceItemSelect(r)}
-                        options={selector.typeList}
+                        onChange={r => chgTypeMore(r)}
+                        options={typeList}
                     />
-                    {romanceItem.value == '' || romanceItem.value == undefined ?
-                        <></> :
-                        romanceItem.value == 'activity' ?
-                            <DropDownField
-                                label={'Romance Activity:'}
-                                value={activityItem}
-                                onChange={i => onActivityItemSelect(i)}
-                                options={selector.activityList}
-                            /> :
-                            <DropDownField
-                                label={'Romance Action:'}
-                                value={actionItem}
-                                onChange={i => onActionItemSelect(i)}
-                                options={selector.actionList}
-                            />
-                    }
+                    <DropDownField
+                        label={`Romance ${label}:`}
+                        value={romanceResult}
+                        onChange={i => onRomanceResult(i)}
+                        options={displayList}
+                    />
                     <div className='calendar'>
                         <Calendar
                             value={romanceDte}

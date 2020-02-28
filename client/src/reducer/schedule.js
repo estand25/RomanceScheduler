@@ -4,6 +4,17 @@ const initialState = {
     scheduleList: [],
     schedule: {},
     schedulesLoading: false,
+    resultList: [
+        {value: 'movienight', label: 'Movie Night'},
+        {value: 'parkwalk', label: 'Park Walk'},
+        {value: 'inhomedinner', label: 'In-Home Dinner'},
+        {value: 'restaurants', label: 'Restaurants'},
+        {value: 'flowers', label: 'Flowers'},
+        {value: 'nothingbundtcake', label: 'Nothing Bundt Cake'},
+        {value: 'wine', label: 'Wine'}
+    ],
+    activityStr: 'flowers,nothingbundtcake,wine',
+    actionStr: 'movienight,parkwalk,inhomedinner,restaurants',
     activityList: [
         {value: 'movienight', label: 'Movie Night'},
         {value: 'parkwalk', label: 'Park Walk'},
@@ -35,12 +46,16 @@ export default (state = initialState, action) => {
         case actions.SCHEDULE_GET_ACTIVITIES:
             return {
                 ...state,
-                activityList: initialState.activityList
+                activityList: initialState.activityList,
+                activityStr: initialState.activityStr,
+                resultList: initialState.resultList
             }
         case actions.SCHEDULE_GET_ACTIONS:            
             return {
                 ...state,
-                actionList: initialState.actionList
+                actionList: initialState.actionList,
+                actionStr: initialState.actionStr,
+                resultList: initialState.resultList
             }
         case actions.SCHEDULE_GET_TYPES:                
             return {
