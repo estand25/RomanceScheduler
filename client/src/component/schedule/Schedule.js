@@ -13,7 +13,6 @@ const Schedule = ({item, setShow, setMessage, setTitle, setVariantType}) => {
 
     const [change, onChange] = useState(false)
     const [rTypeValue, setRtypeValue] = useState(typeList.filter(i => i.value == rType)[0])
-
     const [rResultValue, setRResultValue] = useState(resultList.filter((i) => {
         if(i.value == rResult){
             return i
@@ -21,7 +20,6 @@ const Schedule = ({item, setShow, setMessage, setTitle, setVariantType}) => {
     }))
 
     const [dte, setDte] = useState(new Date(rScheduleDte))
-
     const [displayList, setDisplayList] = useState(resultList.filter((i) => {
         return !activityStr.split(',').includes(i.value)
     }))
@@ -40,8 +38,6 @@ const Schedule = ({item, setShow, setMessage, setTitle, setVariantType}) => {
             userId: accSeletor.userId,
             token: accSeletor.token
         }
-        console.log('deleteSchedule',deleteSchedule);
-        
 
         let message = ['Schedule has been successfully deleted from your calendar ',
         'you have deleted the following schedule item',

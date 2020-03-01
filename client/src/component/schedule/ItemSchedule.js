@@ -9,7 +9,7 @@ const ItemSchedule = ({add, onChange, setShow, setMessage, setTitle, setVariantT
     const dispatch = useDispatch()
     const selector = useSelector(state => state.schedule)
     const acc = useSelector(state => state.account)
-    const {typeList, activityStr, actionStr, resultList } = selector
+    const { typeList, activityStr, actionStr, resultList } = selector
 
     const [romanceItem, onRomanceItemSelect] = useState('')
     const [romanceDte, onRomanceDte] = useState(new Date())
@@ -18,9 +18,6 @@ const ItemSchedule = ({add, onChange, setShow, setMessage, setTitle, setVariantT
     const [displayList, setDisplayList] = useState(resultList.filter((i) => {
         return !activityStr.split(',').includes(i.value)
     }))
-
-    const [activityItem, onActivityItemSelect] = useState('')
-    const [actionItem, onActionItemSelect] = useState('')
 
     useEffect(
         () => {
@@ -96,6 +93,7 @@ const ItemSchedule = ({add, onChange, setShow, setMessage, setTitle, setVariantT
         setDisplayList(list)
         onRomanceResult('')
     }
+
     const Item = () => {
         if(add){
             return (

@@ -72,7 +72,12 @@ export const deleteScheduleToDb = (payload) => {
     return async dispatch => {
         dispatch(getAllScheduleLoading(true))
         
-        api.deleteSchedule(payload)
+        await api.deleteSchedule(payload)
+            .then(
+                data => {
+                    dispatch(getAllSchedule(data.data.data.filter(i => i.rUserId == payload.userId && r._id != payload._id)))
+                }
+            )
             .catch(err => {
                 dispatch(getAllScheduleError(err))
             })
@@ -83,7 +88,12 @@ export const updateScheduleToDb = (payload) => {
     return async dispatch => {
         dispatch(getAllScheduleLoading(true))
 
-        api.updateSchedule(payload)
+        await api.updateSchedule(payload)
+            .then(
+                data => {
+                    dispatch(getAllSchedule(data.data.data.filter(i => i.rUserId == payload.userId)))
+                }
+            )
             .catch(err => {
                 dispatch(getAllScheduleError(err))
             })

@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import Anime from 'react-anime';
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Schedule } from '../../component'
-import { schedule } from '../../action'
 
 const ListSchedule = ({setShow, setMessage, setTitle, setVariantType}) => {
     const schSeletor = useSelector(state => state.schedule)

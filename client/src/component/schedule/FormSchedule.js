@@ -1,17 +1,19 @@
-import React, {useState,useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import { MessageAlert, GeneralBtn } from '../general'
 import { useSelector, useDispatch } from 'react-redux'
 import { schedule } from '../../action'
 import { ItemSchedule, ListSchedule } from '../../component'
 
 const FormSchedule = () => {
+    const dispatch = useDispatch()
+    const accSeletor = useSelector(state => state.account)
+
     const [add, onAdd] = useState(false)
     const [show, setShow] = useState(false)
+    const [refresh, setRefresh] = useState(false)
     const [message, setMessage] = useState('')
     const [title, setTitle] = useState('')
     const [variantType, setVariantType] = useState('')
-    const dispatch = useDispatch()
-    const accSeletor = useSelector(state => state.account)
 
     useEffect(
         () => {
@@ -21,15 +23,15 @@ const FormSchedule = () => {
             }
 
             dispatch(schedule.getSchedulesToDb(payload))
-        },[]
+        },[refresh]
     )  
 
     const addSchedule = () =>{
         onAdd(!add)
     }
 
-    const refresh = () => {
-        console.log('Refresh');
+    const refreshSchedule = () => {
+        setRefresh(!refresh)
     }
 
     return (
@@ -48,7 +50,7 @@ const FormSchedule = () => {
                     text={'Add'}
                 />
                 <GeneralBtn
-                    onClick={refresh}
+                    onClick={refreshSchedule}
                     className={'btn btn-primary'}
                     text={'Refresh'}
                 />

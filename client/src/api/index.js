@@ -1,8 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
 
-const baseURL = '/api/'
-//'http://localhost:3000'
+const baseURL = '/api'
 
 /**
  * Header component for api GET request with content
