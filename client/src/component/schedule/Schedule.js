@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { AcceptRejectBtn, EditableField, EditableCalendarField } from '../general'
+import { AcceptRejectBtn, EditableField, EditableCalendarField, Utility } from '../general'
 import { schedule } from '../../action'
 
 const Schedule = ({item, setShow, setMessage, setTitle, setVariantType}) => {
@@ -38,20 +38,14 @@ const Schedule = ({item, setShow, setMessage, setTitle, setVariantType}) => {
             userId: accSeletor.userId,
             token: accSeletor.token
         }
-
-        let message = ['Schedule has been successfully deleted from your calendar ',
-        'you have deleted the following schedule item',
-        ` - Type: ${rTypeValue.label} `,
-        ` - ${label}: ${rResultValue.label}`,
-        ` - Schedule Date: 
-        ${new Intl.DateTimeFormat("en-GB", 
-        {
-            year: "numeric",
-            month: "long",
-            day: "2-digit"
-        }).format(new Date(dte))}` ]
         
-        setMessage(message)
+        setMessage(Utility.MessageString(
+            'deleted',
+            new Date(dte),
+            rTypeValue.label,
+            label,
+            rResultValue[0].label
+        ))
         setTitle('Schedule Deleted Successfully')
         setVariantType('danger')
         
@@ -75,19 +69,13 @@ const Schedule = ({item, setShow, setMessage, setTitle, setVariantType}) => {
             token: accSeletor.token
         }
        
-        let message = ['Schedule has been successfully update from your calendar ',
-        'you have updated the following schedule item',
-        ` - Type: ${rTypeValue.label} `,
-        ` - ${label}: ${rResultValue.label}`,
-        ` - Schedule Date: 
-        ${new Intl.DateTimeFormat("en-GB", 
-        {
-            year: "numeric",
-            month: "long",
-            day: "2-digit"
-        }).format(new Date(dte))}` ]
-        
-        setMessage(message)
+        setMessage(Utility.MessageString(
+            'update',
+            new Date(dte),
+            rTypeValue.label,
+            label,
+            rResultValue.label
+        ))
         setTitle('Schedule Updated Successfully')
         setVariantType('primary')
 
@@ -95,6 +83,7 @@ const Schedule = ({item, setShow, setMessage, setTitle, setVariantType}) => {
             .then(i => {
                 dispatch(schedule.getSchedulesToDb(payload))
             })
+
         setShow(true)
     }
 

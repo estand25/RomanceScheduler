@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { DropDownField, AcceptRejectBtn } from '../general'
+import { DropDownField, AcceptRejectBtn, Utility } from '../general'
 import { useDispatch, useSelector} from 'react-redux'
 import Calendar from 'react-calendar'
 import {schedule} from '../../action'
@@ -41,18 +41,14 @@ const ItemSchedule = ({add, onChange, setShow, setMessage, setTitle, setVariantT
             token: acc.token
         }
         
-        let message = [`Schedule has been successfully added to your calendar `,
-        `You have added the following schedule item `,
-        ` - Type: ${romanceItem.label} `,
-        ` - ${label}: ${romanceResult.label}`,,
-        ` - Schedule Date: 
-        ${new Intl.DateTimeFormat("en-GB", 
-        {
-            year: "numeric",
-            month: "long",
-            day: "2-digit"
-        }).format(new Date(romanceDte))}`]
-        
+        let message = Utility.MessageString(
+            'added', 
+            new Date(romanceDte),
+            romanceItem.label, 
+            label,
+            romanceResult.label
+        )
+
         setMessage(message)
         setTitle('Schedule Added Successfully')
         setVariantType('success')

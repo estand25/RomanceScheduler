@@ -4,6 +4,7 @@ import MessageAlert from './MessageAlert'
 import EditableField from './EditableField'
 import EditableCalendarField from './EditableCalendarField'
 import GeneralBtn from './GeneralBtn'
+import Utility from './Utility'
 
 export {
     DropDownField,
@@ -11,5 +12,6 @@ export {
     MessageAlert,
     EditableField,
     EditableCalendarField,
-    GeneralBtn
+    GeneralBtn,
+    Utility
 }
