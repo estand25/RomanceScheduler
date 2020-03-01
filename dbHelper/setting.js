@@ -1,9 +1,7 @@
 let settingModel
-let userModel
 
-module.exports = (injectSetting, injectUserModel) => {
+module.exports = (injectSetting) => {
     settingModel = injectSetting
-    userModel = injectUserModel
 
     return {
         addSettingInDb: addSettingInDb,
@@ -30,7 +28,7 @@ getAllSettingInDb = () => {
                 console.error(err);
             }
 
-            return setting
+            return allSetting
         })   
 }
 updateSettingInDb = (setting) => {
