@@ -1,5 +1,4 @@
 import React from 'react'
-import Anime from 'react-anime';
 import { useSelector } from 'react-redux'
 import { Schedule } from '../../component'
 

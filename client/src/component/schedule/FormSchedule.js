@@ -3,6 +3,7 @@ import { MessageAlert, GeneralBtn } from '../general'
 import { useSelector, useDispatch } from 'react-redux'
 import { schedule } from '../../action'
 import { ItemSchedule, ListSchedule } from '../../component'
+import Anime from 'react-anime';
 
 const FormSchedule = () => {
     const dispatch = useDispatch()
@@ -34,6 +35,18 @@ const FormSchedule = () => {
         setRefresh(!refresh)
     }
 
+    let animeAddSchedule = {
+        opacity: [0,1],
+        translateX: [-64,0],
+        delay: (el, i) => i * 10
+    }
+    
+    let animeListSchedule = {
+        opacity: [0,1],
+        translateY: [-64, 0],
+        delay: (el, i) => i *  20
+    }
+
     return (
         <div>
             <MessageAlert
@@ -55,20 +68,24 @@ const FormSchedule = () => {
                     text={'Refresh'}
                 />
             </div>
-            <ItemSchedule
-                add={add}
-                onChange={onAdd}
-                setShow={setShow}
-                setMessage={setMessage}
-                setTitle={setTitle}
-                setVariantType={setVariantType}
-            />
-            <ListSchedule 
-                setShow={setShow}
-                setMessage={setMessage}
-                setTitle={setTitle}
-                setVariantType={setVariantType}
-            />
+            <Anime {...animeAddSchedule}>
+                <ItemSchedule
+                    add={add}
+                    onChange={onAdd}
+                    setShow={setShow}
+                    setMessage={setMessage}
+                    setTitle={setTitle}
+                    setVariantType={setVariantType}
+                />
+            </Anime>
+            <Anime {...animeListSchedule}>
+                <ListSchedule 
+                    setShow={setShow}
+                    setMessage={setMessage}
+                    setTitle={setTitle}
+                    setVariantType={setVariantType}
+                />
+            </Anime>
         </div>
     )
 }
