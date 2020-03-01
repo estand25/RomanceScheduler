@@ -11,7 +11,7 @@ module.exports = (injectSettingDbHelper) => {
     }
 }
 
-addSetting = (req, res) => {
+addSetting = (req, res) => {    
     settingDbHelper.addSettingInDb(req.body)
         .then(setting => {
             if(setting){
@@ -24,6 +24,7 @@ addSetting = (req, res) => {
             sendResponse(res, 'Failed to add setting', error, null)
         })
 }
+
 getAllSetting = (req, res) => {
     settingDbHelper.getAllSettingInDb()
         .then(setting => {

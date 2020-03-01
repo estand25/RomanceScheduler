@@ -1,4 +1,5 @@
 module.exports = {
     label: String,
-    value: String
+    value: String,
+    rType: String
 }

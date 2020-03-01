@@ -12,17 +12,30 @@ module.exports = (injectSetting) => {
 }
 
 addSettingInDb = (setting) => {
-    var settingInstane = new settingModel(setting)
-    settingInstane.save((err) => {
-        if(err){
-            return console.error(err);
-        }
-    })
+    return settingModel
+        .findOne({
+            label: setting.label,
+            value: setting.value
+        })
+        .then(
+            set => {
+                if(!set){
+                    var settingInstane = new settingModel(setting)                    
+                    settingInstane.save((err) => {
+                        if(err){
+                            console.error(err);
+                        }
+                    })
 
-    return settingInstane
+                    return settingInstane
+                } else {
+                    return null
+                }
+            }
+        )
 }
 getAllSettingInDb = () => {
-    return setting
+    return settingModel
         .find({}, (err, allSetting) => {
             if(err){
                 console.error(err);
@@ -39,7 +52,7 @@ updateSettingInDb = (setting) => {
         .then(
             set => {
                 if(set){
-                    set.remove({id: setting}, (err) => {
+                    set.remove({id: setting._id}, (err) => {
                         if(err){
                             return console.error(err);
                         }
