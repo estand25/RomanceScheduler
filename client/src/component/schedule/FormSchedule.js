@@ -1,8 +1,8 @@
 import React, {useState,useEffect} from 'react'
-import { MessageAlert } from '../general'
+import { MessageAlert, GeneralBtn } from '../general'
 import { useSelector, useDispatch } from 'react-redux'
 import { schedule } from '../../action'
-import { AddSchedule, ItemSchedule, ListSchedule } from '../../component'
+import { ItemSchedule, ListSchedule } from '../../component'
 
 const FormSchedule = () => {
     const [add, onAdd] = useState(false)
@@ -28,6 +28,10 @@ const FormSchedule = () => {
         onAdd(!add)
     }
 
+    const refresh = () => {
+        console.log('Refresh');
+    }
+
     return (
         <div>
             <MessageAlert
@@ -37,9 +41,18 @@ const FormSchedule = () => {
                 body={message}
                 variantType={variantType}
             />
-            <AddSchedule
-                addSchedule={addSchedule}
-            />
+            <div className='row'>
+                <GeneralBtn
+                    onClick={addSchedule}
+                    className={'btn btn-success'}
+                    text={'Add'}
+                />
+                <GeneralBtn
+                    onClick={refresh}
+                    className={'btn btn-primary'}
+                    text={'Refresh'}
+                />
+            </div>
             <ItemSchedule
                 add={add}
                 onChange={onAdd}

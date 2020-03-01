@@ -5,20 +5,7 @@ import { Schedule } from '../../component'
 import { schedule } from '../../action'
 
 const ListSchedule = ({setShow, setMessage, setTitle, setVariantType}) => {
-    const dispatch = useDispatch()
     const schSeletor = useSelector(state => state.schedule)
-    const accSeletor = useSelector(state => state.account)
-
-    // useEffect(
-    //     () => {
-    //         let payload = {
-    //             userId: accSeletor.userId,
-    //             token: accSeletor.token
-    //         }
-
-    //         dispatch(schedule.getSchedulesToDb(payload))
-    //     },[]
-    // )  
 
     const List = () => {
         if(schSeletor.scheduleList.length > 0){

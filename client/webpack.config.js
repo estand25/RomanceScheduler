@@ -8,6 +8,8 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         filename: 'index_bundle.js',
         publicPath: '/',
+        port: 3001,
+        proxy: { "/api/**": {target: 'http://localhost:3000', secure: false}}
     },
     module: {
        rules: [
