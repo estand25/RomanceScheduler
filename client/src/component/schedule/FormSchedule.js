@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { MessageAlert, GeneralBtn } from '../general'
 import { useSelector, useDispatch } from 'react-redux'
-import { schedule } from '../../action'
+import { schedule, setting } from '../../action'
 import { ItemSchedule, ListSchedule } from '../../component'
 import Anime from 'react-anime';
 
@@ -24,6 +24,7 @@ const FormSchedule = () => {
             }
 
             dispatch(schedule.getSchedulesToDb(payload))
+            dispatch(setting.getSettingAllToDb(payload))
         },[refresh]
     )  
 
@@ -40,7 +41,7 @@ const FormSchedule = () => {
         translateX: [-64,0],
         delay: (el, i) => i * 10
     }
-    
+
     let animeListSchedule = {
         opacity: [0,1],
         translateY: [-64, 0],

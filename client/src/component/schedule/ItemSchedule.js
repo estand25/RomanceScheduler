@@ -1,31 +1,22 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import { DropDownField, AcceptRejectBtn, Utility } from '../general'
 import { useDispatch, useSelector} from 'react-redux'
 import Calendar from 'react-calendar'
-import {schedule} from '../../action'
+import { schedule } from '../../action'
 import RandomDateGene from 'random-date-generator'
 
 const ItemSchedule = ({add, onChange, setShow, setMessage, setTitle, setVariantType}) => {
     const dispatch = useDispatch()
-    const selector = useSelector(state => state.schedule)
     const acc = useSelector(state => state.account)
-    const { typeList, activityStr, actionStr, resultList } = selector
+    const set = useSelector(state => state.setting)
+
+    const { activityStr, actionStr, resultList, typeList } = set
 
     const [romanceItem, onRomanceItemSelect] = useState('')
     const [romanceDte, onRomanceDte] = useState(new Date())
     const [romanceResult, onRomanceResult] = useState('')
     const [label, onLabel] = useState('Activity')
-    const [displayList, setDisplayList] = useState(resultList.filter((i) => {
-        return !activityStr.split(',').includes(i.value)
-    }))
-
-    useEffect(
-        () => {
-            dispatch(schedule.getScheduleTypes())
-            dispatch(schedule.getScheduleActions())
-            dispatch(schedule.getScheduleActivites())
-        },[]
-    )
+    const [displayList, setDisplayList] = useState(resultList.filter((i) => i.rType == 'activity'))
 
     const onAdd = async() => {
         var newSchedule = {
@@ -76,12 +67,12 @@ const ItemSchedule = ({add, onChange, setShow, setMessage, setTitle, setVariantT
 
         if(i.value == 'activity'){
             list = resultList.filter((i) => {
-                return !activityStr.split(',').includes(i.value)
+                return activityStr.includes(i.value)
             })
             onLabel('Activity')
         } else {
             list = resultList.filter((i) => {
-                return !actionStr.split(',').includes(i.value)
+                return actionStr.includes(i.value)
             })
             onLabel('Action')
         }

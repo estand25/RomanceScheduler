@@ -6,10 +6,10 @@ import { schedule } from '../../action'
 const Schedule = ({item, setShow, setMessage, setTitle, setVariantType}) => {
     const dispatch = useDispatch()
     const accSeletor = useSelector(state => state.account)
-    const schSeletor = useSelector(state => state.schedule)
+    const setSeletor = useSelector(state => state.setting)
 
     const {rType, rResult, rScheduleDte} = item
-    const {typeList, activityStr, actionStr, resultList} = schSeletor
+    const {activityStr, actionStr, resultList, typeList} = setSeletor
 
     const [change, onChange] = useState(false)
     const [rTypeValue, setRtypeValue] = useState(typeList.filter(i => i.value == rType)[0])
@@ -20,9 +20,7 @@ const Schedule = ({item, setShow, setMessage, setTitle, setVariantType}) => {
     }))
 
     const [dte, setDte] = useState(new Date(rScheduleDte))
-    const [displayList, setDisplayList] = useState(resultList.filter((i) => {
-        return !activityStr.split(',').includes(i.value)
-    }))
+    const [displayList, setDisplayList] = useState(resultList.filter((i) => i.rType == 'activity'))
 
     const [label, setLabel] = useState('Activity')
 
@@ -93,12 +91,12 @@ const Schedule = ({item, setShow, setMessage, setTitle, setVariantType}) => {
 
         if(i.value == 'activity'){
             list = resultList.filter((i) => {
-                return !activityStr.split(',').includes(i.value)
+                return activityStr.includes(i.value)
             })
             setLabel('Activity')
         } else {
             list = resultList.filter((i) => {
-                return !actionStr.split(',').includes(i.value)
+                return actionStr.includes(i.value)
             })
             setLabel('Action')
         }
