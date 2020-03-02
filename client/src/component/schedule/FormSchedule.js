@@ -1,16 +1,51 @@
-import React, {useState} from 'react'
-import { MessageAlert } from '../general'
-import { AddSchedule, ItemSchedule, ListSchedule } from '../../component'
+import React, {useState, useEffect} from 'react'
+import { MessageAlert, GeneralBtn } from '../general'
+import { useSelector, useDispatch } from 'react-redux'
+import { schedule, setting } from '../../action'
+import { ItemSchedule, ListSchedule } from '../../component'
+import Anime from 'react-anime';
 
 const FormSchedule = () => {
+    const dispatch = useDispatch()
+    const accSeletor = useSelector(state => state.account)
+
     const [add, onAdd] = useState(false)
     const [show, setShow] = useState(false)
+    const [refresh, setRefresh] = useState(false)
     const [message, setMessage] = useState('')
     const [title, setTitle] = useState('')
     const [variantType, setVariantType] = useState('')
 
+    useEffect(
+        () => {
+            let payload = {
+                userId: accSeletor.userId,
+                token: accSeletor.token
+            }
+
+            dispatch(schedule.getSchedulesToDb(payload))
+            dispatch(setting.getSettingAllToDb(payload))
+        },[refresh]
+    )  
+
     const addSchedule = () =>{
         onAdd(!add)
+    }
+
+    const refreshSchedule = () => {
+        setRefresh(!refresh)
+    }
+
+    let animeAddSchedule = {
+        opacity: [0,1],
+        translateX: [-64,0],
+        delay: (el, i) => i * 10
+    }
+
+    let animeListSchedule = {
+        opacity: [0,1],
+        translateY: [-64, 0],
+        delay: (el, i) => i *  20
     }
 
     return (
@@ -22,23 +57,36 @@ const FormSchedule = () => {
                 body={message}
                 variantType={variantType}
             />
-            <AddSchedule
-                addSchedule={addSchedule}
-            />
-            <ItemSchedule
-                add={add}
-                onChange={onAdd}
-                setShow={setShow}
-                setMessage={setMessage}
-                setTitle={setTitle}
-                setVariantType={setVariantType}
-            />
-            <ListSchedule 
-                setShow={setShow}
-                setMessage={setMessage}
-                setTitle={setTitle}
-                setVariantType={setVariantType}
-            />
+            <div className='row'>
+                <GeneralBtn
+                    onClick={addSchedule}
+                    className={'btn btn-success'}
+                    text={'Add'}
+                />
+                <GeneralBtn
+                    onClick={refreshSchedule}
+                    className={'btn btn-primary'}
+                    text={'Refresh'}
+                />
+            </div>
+            <Anime {...animeAddSchedule}>
+                <ItemSchedule
+                    add={add}
+                    onChange={onAdd}
+                    setShow={setShow}
+                    setMessage={setMessage}
+                    setTitle={setTitle}
+                    setVariantType={setVariantType}
+                />
+            </Anime>
+            <Anime {...animeListSchedule}>
+                <ListSchedule 
+                    setShow={setShow}
+                    setMessage={setMessage}
+                    setTitle={setTitle}
+                    setVariantType={setVariantType}
+                />
+            </Anime>
         </div>
     )
 }

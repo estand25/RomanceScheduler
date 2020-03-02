@@ -11,18 +11,6 @@ export const addScheduleError = (error) => ({
     payload: error
 })
 
-export const getScheduleActivites = () => ({
-    type: actions.SCHEDULE_GET_ACTIVITIES
-})
-
-export const getScheduleActions = () => ({
-    type: actions.SCHEDULE_GET_ACTIONS
-})
-
-export const getScheduleTypes = () => ({
-    type: actions.SCHEDULE_GET_TYPES
-})
-
 export const getAllScheduleLoading = (bool) => ({
     type: actions.SCHEDULE_GET_ALL_LOADING,
     payload: bool
@@ -72,7 +60,12 @@ export const deleteScheduleToDb = (payload) => {
     return async dispatch => {
         dispatch(getAllScheduleLoading(true))
         
-        api.deleteSchedule(payload)
+        await api.deleteSchedule(payload)
+            .then(
+                data => {
+                    dispatch(getAllSchedule(data.data.data.filter(i => i.rUserId == payload.userId && r._id != payload._id)))
+                }
+            )
             .catch(err => {
                 dispatch(getAllScheduleError(err))
             })
@@ -83,7 +76,12 @@ export const updateScheduleToDb = (payload) => {
     return async dispatch => {
         dispatch(getAllScheduleLoading(true))
 
-        api.updateSchedule(payload)
+        await api.updateSchedule(payload)
+            .then(
+                data => {
+                    dispatch(getAllSchedule(data.data.data.filter(i => i.rUserId == payload.userId)))
+                }
+            )
             .catch(err => {
                 dispatch(getAllScheduleError(err))
             })

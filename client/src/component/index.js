@@ -6,7 +6,6 @@ import Auth from './navigation/Auth'
 import NavBar from './navigation/NavBar'
 import Links from './navigation/Links'
 
-import AddSchedule from './schedule/AddSchedule'
 import ListSchedule from './schedule/ListSchedule'
 import ItemSchedule from './schedule/ItemSchedule'
 import FormSchedule from './schedule/FormSchedule'
@@ -21,7 +20,6 @@ export {
     NavBar,
     Links,
 
-    AddSchedule,
     ItemSchedule,
     ListSchedule,
     FormSchedule,

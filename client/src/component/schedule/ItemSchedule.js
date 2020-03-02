@@ -1,42 +1,30 @@
-import React, {useState, useEffect} from 'react'
-import { DropDownField, AcceptRejectBtn } from '../general'
+import React, {useState} from 'react'
+import { DropDownField, AcceptRejectBtn, Utility } from '../general'
 import { useDispatch, useSelector} from 'react-redux'
 import Calendar from 'react-calendar'
-import {schedule} from '../../action'
+import { schedule } from '../../action'
 import RandomDateGene from 'random-date-generator'
 
 const ItemSchedule = ({add, onChange, setShow, setMessage, setTitle, setVariantType}) => {
     const dispatch = useDispatch()
-    const selector = useSelector(state => state.schedule)
     const acc = useSelector(state => state.account)
+    const set = useSelector(state => state.setting)
+
+    const { activityStr, actionStr, resultList, typeList } = set
 
     const [romanceItem, onRomanceItemSelect] = useState('')
-    const [activityItem, onActivityItemSelect] = useState('')
-    const [actionItem, onActionItemSelect] = useState('')
     const [romanceDte, onRomanceDte] = useState(new Date())
-
-    useEffect(
-        () => {
-            dispatch(schedule.getScheduleTypes())
-            dispatch(schedule.getScheduleActions())
-            dispatch(schedule.getScheduleActivites())
-        },[]
-    )
+    const [romanceResult, onRomanceResult] = useState('')
+    const [label, onLabel] = useState('Activity')
+    const [displayList, setDisplayList] = useState(resultList.filter((i) => i.rType == 'activity'))
 
     const onAdd = async() => {
         var newSchedule = {
             rType: romanceItem.value,
             rScheduleDte: romanceDte.toDateString(),
+            rResult:romanceResult.value,
             rUserId: acc.userId,
             token: acc.token
-        }
-
-        if(activityItem.value){
-            newSchedule.rResult = activityItem.value
-        }
-
-        if(actionItem.value){
-            newSchedule.rResult = actionItem.value
         }
         
         let payload = {
@@ -44,14 +32,14 @@ const ItemSchedule = ({add, onChange, setShow, setMessage, setTitle, setVariantT
             token: acc.token
         }
         
-        let message = [`Schedule has been successfully added to your calendar `,
-        `You have added the following schedule item `,
-        ` - Type: ${romanceItem.label} `,
-        activityItem.value ? 
-        ` - Activity: ${activityItem.label} ` :
-        ` - Action: ${actionItem.label} `,
-        ` - Schedule Date: ${romanceDte.toDateString()}` ]
-        
+        let message = Utility.MessageString(
+            'added', 
+            new Date(romanceDte),
+            romanceItem.label, 
+            label,
+            romanceResult.label
+        )
+
         setMessage(message)
         setTitle('Schedule Added Successfully')
         setVariantType('success')
@@ -62,8 +50,7 @@ const ItemSchedule = ({add, onChange, setShow, setMessage, setTitle, setVariantT
             })
 
         onRomanceItemSelect('')
-        onActionItemSelect('')
-        onActivityItemSelect('')
+        onRomanceResult('')
         onRomanceDte(new Date())
 
         setShow(true)
@@ -74,6 +61,26 @@ const ItemSchedule = ({add, onChange, setShow, setMessage, setTitle, setVariantT
         onChange(!add)
     }
 
+    const chgTypeMore = (i) => {
+        onRomanceItemSelect(i);
+        let list;
+
+        if(i.value == 'activity'){
+            list = resultList.filter((i) => {
+                return activityStr.includes(i.value)
+            })
+            onLabel('Activity')
+        } else {
+            list = resultList.filter((i) => {
+                return actionStr.includes(i.value)
+            })
+            onLabel('Action')
+        }
+        
+        setDisplayList(list)
+        onRomanceResult('')
+    }
+
     const Item = () => {
         if(add){
             return (
@@ -81,25 +88,15 @@ const ItemSchedule = ({add, onChange, setShow, setMessage, setTitle, setVariantT
                     <DropDownField
                         label={'Romance Item:'}
                         value={romanceItem}
-                        onChange={r => onRomanceItemSelect(r)}
-                        options={selector.typeList}
+                        onChange={r => chgTypeMore(r)}
+                        options={typeList}
                     />
-                    {romanceItem.value == '' || romanceItem.value == undefined ?
-                        <></> :
-                        romanceItem.value == 'activity' ?
-                            <DropDownField
-                                label={'Romance Activity:'}
-                                value={activityItem}
-                                onChange={i => onActivityItemSelect(i)}
-                                options={selector.activityList}
-                            /> :
-                            <DropDownField
-                                label={'Romance Action:'}
-                                value={actionItem}
-                                onChange={i => onActionItemSelect(i)}
-                                options={selector.actionList}
-                            />
-                    }
+                    <DropDownField
+                        label={`Romance ${label}:`}
+                        value={romanceResult}
+                        onChange={i => onRomanceResult(i)}
+                        options={displayList}
+                    />
                     <div className='calendar'>
                         <Calendar
                             value={romanceDte}

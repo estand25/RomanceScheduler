@@ -1,7 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
 
-const baseURL = 'http://localhost:3000'
+const baseURL = '/api'
 
 /**
  * Header component for api GET request with content
@@ -80,7 +80,7 @@ export const getAllSchedule = (payload) => {
 }
 
 /**
- * updateSchedule 
+ * update existing schedule 
  * @param {*} payload 
  */
 export const updateSchedule = (payload) => {
@@ -98,7 +98,7 @@ export const updateSchedule = (payload) => {
 }
 
 /**
- * deleteSchedule
+ * delete existing schedule
  * @param {*} payload 
  */
 export const deleteSchedule = async (payload) => {
@@ -115,6 +115,78 @@ export const deleteSchedule = async (payload) => {
     )
 }
 
+/**
+ * add new options to settings
+ * @param {*} data 
+ */
+export const addSetting = (data) => {
+    let headers = createHeaderContent(data.token)
+    delete data.token
+
+    return (
+        axios({
+            method: 'POST',
+            url: baseURL + '/setting/add',
+            data: qs.stringify(data),
+            headers: headers
+        })
+    )
+}
+
+/**
+ * retrieve all the setting
+ * @param {*} data 
+ */
+export const getAllSetting = (data) => {
+    let headers = createHeaderContent(data.token)
+    delete data.token
+
+    return (
+        axios({
+            method: 'GET',
+            url: baseURL + '/setting/',
+            data: qs.stringify(data),
+            headers: headers
+        })
+    )
+}
+
+/**
+ * update existing Setting 
+ * @param {*} payload 
+ */
+export const updateSetting = (payload) => {
+    let headers = createHeaderContent(payload.token)
+    delete payload.token
+
+    return (
+        axios({
+            method: 'PATCH',
+            url: baseURL + '/setting/update',
+            data: qs.stringify(payload),
+            headers: headers
+        })
+    )
+}
+
+/**
+ * delete existing setting
+ * @param {*} payload 
+ */
+export const deleteSetting = async (payload) => {
+    let headers = createHeaderContent(payload.token)
+    delete payload.token
+    
+    return(
+        axios({
+            method: 'DELETE',
+            url: baseURL + '/setting/delete',
+            data: qs.stringify(payload),
+            headers: headers
+        })
+    )
+}
+
 const api = {
     logIn,
     updateAccount,
@@ -122,7 +194,12 @@ const api = {
     addSchedule,
     getAllSchedule,
     updateSchedule,
-    deleteSchedule
+    deleteSchedule,
+    
+    addSetting,
+    getAllSetting,
+    updateSetting,
+    deleteSetting
 }
 
 export default api

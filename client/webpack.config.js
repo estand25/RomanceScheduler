@@ -7,7 +7,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'index_bundle.js',
-        publicPath: '/',
+        publicPath: '/'
     },
     module: {
        rules: [
@@ -17,6 +17,8 @@ module.exports = {
     },
     devServer: {
       historyApiFallback: true,
+      port: 3001,
+      proxy: { "/api": {target: 'http://localhost:3000'}}
     },
     mode: 'development',
     plugins: [

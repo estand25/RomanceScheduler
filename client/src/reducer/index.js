@@ -5,6 +5,8 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 
 import account from './account'
 import schedule from './schedule'
+import setting from './setting'
+
 import { persistReducer } from 'redux-persist'
 
 const combinPersistConfig = {
@@ -21,7 +23,8 @@ const authPersistConfig = {
 
 const rootReducer  = combineReducers({
     account: persistReducer(authPersistConfig, account),
-    schedule: schedule
+    schedule: schedule,
+    setting: setting
 })
 
 export default persistReducer(combinPersistConfig, rootReducer)

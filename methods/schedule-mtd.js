@@ -20,7 +20,7 @@ addSchedule = (req, res) => {
                 sendResponse(res, 'Failed to add schedule', 'User does not exist to add schedule', null)
             }
         })
-        .catch(error => {
+        .catch((error) => {
             sendResponse(res, 'Failed to add schedule', error, null)
         })
 }
@@ -30,7 +30,7 @@ getAllSchedule = (req, res) => {
         .then(schedule => {
             sendResponse(res, 'All Schedule received successfully', null, schedule)
         })
-        .catch(error => {
+        .catch((error) => {
             sendResponse(res, 'Failed to received schedules', error, null)
         })
 }
@@ -44,7 +44,7 @@ updateSchedule = (req, res) => {
                 sendResponse(res, 'Failed to update schedule', 'Schedule has not been updated', null)
             }
         })
-        .catch(error => {
+        .catch((error) => {
             sendResponse(res, 'Failed to update schedule', error, null)
         })
 }
@@ -58,7 +58,7 @@ deleteSchedule = (req, res) => {
                 sendResponse(res, 'Failed to delete schedule', 'Schedule does not exist to delete', null)
             }
         })
-        .catch(error => {
+        .catch((error) => {
             sendResponse(res, 'Failed to delete schedule', error, null)
         })
 }
