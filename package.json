@@ -23,6 +23,7 @@
     "lodash": "^4.17.15",
     "mongoose": "^5.9.0",
     "mongoose-unique-validator": "^2.0.3",
+    "node-google-calendar": "^1.1.1",
     "node-oauth2-server": "^2.4.0",
     "nodemon": "^2.0.2",
     "oauth2-server": "^3.0.1"
