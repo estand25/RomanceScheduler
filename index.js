@@ -36,7 +36,7 @@ expressApp.use('/api/app', secruityRoute)
 expressApp.use('/api/user', accountRoute)
 expressApp.use('/api/schedule', scheduleRoute)
 expressApp.use('/api/setting', settingRoute)
-expressApp.use('/api/calendar',calendarRoute)
+expressApp.use('/api/calendar', calendarRoute)
 
 //Error: {"origin":"CalendarList.list","error":"The \"path\" argument must be one of type string, Buffer, or URL. Received type object"}
 
