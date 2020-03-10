@@ -26,14 +26,19 @@ const scheduleDbHelper = require('./dbHelper/schedule')(require('./model/schedul
 const scheduleMth = require('./methods/schedule-mtd')(scheduleDbHelper)
 const scheduleRoute = require('./routes/schedule')(express.Router(), scheduleMth, secruityMth)
 
-const settingDbHeper = require('./dbHelper/setting')(require('./model/setting'))
-const settingMth = require('./methods/setting-mtd')(settingDbHeper)
+const settingDbHelper = require('./dbHelper/setting')(require('./model/setting'))
+const settingMth = require('./methods/setting-mtd')(settingDbHelper)
 const settingRoute = require('./routes/setting')(express.Router(), settingMth, secruityMth)
+
+const calendarDbHelper = require('./dbHelper/calendar')(require('./calendarAuth'))
+const calendarMth = require('./methods/calendar-mtd')(calendarDbHelper)
+const calendarRoute = require('./routes/calendar')(express.Router(),  calendarMth, secruityMth)
 
 expressApp.use('/api/app', secruityRoute)
 expressApp.use('/api/user', accountRoute)
 expressApp.use('/api/schedule', scheduleRoute)
 expressApp.use('/api/setting', settingRoute)
+expressApp.use('/api/calendar', calendarRoute)
 
 expressApp.get("*", (req,res) => {
     res.sendFile(path.join(__dirname, "client", "build", "index.html"))
