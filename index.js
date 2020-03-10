@@ -32,7 +32,7 @@ const settingRoute = require('./routes/setting')(express.Router(), settingMth, s
 
 const calendarDbHelper = require('./dbHelper/calendar')(require('./calendarAuth'))
 const calendarMth = require('./methods/calendar-mtd')(calendarDbHelper)
-const calendarRoute = require('./routes/calendar')(express.Router(), require('./calendarAuth'), calendarMth, secruityMth)
+const calendarRoute = require('./routes/calendar')(express.Router(),  calendarMth, secruityMth)
 
 expressApp.use('/api/app', secruityRoute)
 expressApp.use('/api/user', accountRoute)

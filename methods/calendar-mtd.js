@@ -6,12 +6,51 @@ module.exports = (injectCalendarDbHelper) => {
     return {
         getAllEvents: getAllEvents,
         getSpecificEvent: getSpecificEvent,
+        addSpecificEvent: addSpecificEvent,
         updateSpecificEvent: updateSpecificEvent,
         deleteSpecificEvent: deleteSpecificEvent
     }
 }
 
-getAllEvents = () => {}
+getAllEvents = async (req,res) => {
+    await calendarDbHelper.getAllEventsFromCalendar()
+        .then(list => {
+            sendResponse(res, 'Calendar list was successfully retreived', null, list)
+        })
+        .catch(error => {
+            sendResponse(res, 'Failed to retrieve list', error, null)
+        })
+}
 getSpecificEvent = () => {}
+addSpecificEvent = () => {}
 updateSpecificEvent = () => {}
 deleteSpecificEvent = () => {}
+
+sendResponse = (res, message, error, data) => {
+    var json = {}
+    var status = 0
+
+    if(message){
+        json.message = message
+        status = 200
+    }
+
+    if(error){
+        json.error = error 
+        status = 400
+    }
+
+    if(data){
+        json.data = data
+    }
+
+    return res
+        .status(status)
+        .json(json)
+}
+
+isString = (parameter) => {
+    return parameter != null
+        &&  (typeof parameter === 'string'
+            || parameter instanceof String) ? true : false
+}
