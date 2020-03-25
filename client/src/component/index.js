@@ -11,6 +11,8 @@ import ItemSchedule from './schedule/ItemSchedule'
 import FormSchedule from './schedule/FormSchedule'
 import Schedule from './schedule/Schedule'
 
+import FormSetting from './setting/FormSetting'
+
 export {
     AccountLogIn,
     AccountLogOut,
@@ -23,5 +25,7 @@ export {
     ItemSchedule,
     ListSchedule,
     FormSchedule,
-    Schedule
+    Schedule,
+
+    FormSetting
 }

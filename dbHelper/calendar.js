@@ -26,6 +26,8 @@ getAllEventsFromCalendar = async () => {
         "singleEvents": true
     })
 
+    // console.log('Response', response.data.items);
+
     var newResponse = response.data.items.map(i => {
         var item = {}
         
@@ -36,14 +38,30 @@ getAllEventsFromCalendar = async () => {
             summary: i.summary,
             start: i.start.dateTime,
             timeZone: i.start.timeZone,
-            createDte: i.created
+            createDte: i.created,
+            description: i.description
         }
         return item
     }) 
 
     return newResponse
 }
-getSpecificEventFromCalendar = async () => {}
-addSpecificEventToCalendar = () => {}
+getSpecificEventFromCalendar = async () => {
+
+}
+addSpecificEventToCalendar = async (newEvent) => {
+    let calendar = googleCalendar.calendar('v3');
+
+    var response = await calendar.events.insert({
+        "auth": jwtClientCalendar,
+        "calendarId": 'estand25@gmail.com',
+        "orderBy": "startTime",
+        "singleEvents": true,
+        "resource": newEvent
+    })
+
+    return response
+
+}
 updateSpecificEventFromCalendar = () => {}
 deleteSpecificEventFromCalendar = () => {}

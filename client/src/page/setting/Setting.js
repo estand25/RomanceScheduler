@@ -1,8 +1,9 @@
 import React from 'react'
+import { FormSetting } from '../../component'
 
 const Setting = () => {
     return (
-        <div>Setting</div>
+        <FormSetting />
     )
 }
 
