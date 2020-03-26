@@ -25,10 +25,6 @@ export default (state = initialState, action) => {
                 }).filter(i => i != undefined),
                 typeList: action.payload.filter(i => i.rType == 'option')
             }
-
-            console.log('SETTING_GET_ALL', a);
-            
-
             return a
         default:
             return state;
