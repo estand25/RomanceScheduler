@@ -1,14 +1,57 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { AcceptRejectBtn, MessageAlert, GeneralBtn } from '../general'
+import { useDispatch, useSelector, useStore } from 'react-redux'
+import { AcceptRejectBtn, MessageAlert, GeneralBtn, Utility } from '../general'
 import { setting } from '../../action'
 
-const ItemSetting = ({add, onAdd, setShow, setTitle, setVarientType}) => {
+const ItemSetting = ({add, onAdd, onShow, onMessage, onTitle, onVarientType}) => {
+    const dispatch = useDispatch()
+    const acc = useSelector(state => state.account)
+
     const [l_, onL_] = useState("")
     const [v_, onV_] = useState("")
     const [r_, onR_] = useState("")
-    const _onAdd = () => {}
-    const _Cancel = () => {}
+
+    const _onAdd = () => {
+        var newSetting = {
+            label: l_,
+            value: v_,
+            rType: r_,
+            userId: acc.userId,
+            token: acc.token
+        }
+
+        let payload = {
+            userId: acc.userId,
+            token: acc.token
+        }
+
+        let message = Utility.MessageString2(
+            'added',
+            l_,
+            v_,
+            r_
+        )
+
+        onMessage(message)
+        onTitle('Setting Added Successfully')
+        onVarientType('success')
+
+        dispatch(setting.addSettingResultToDb(newSetting))
+            .then(i => {
+                dispatch(setting.getSettingAllToDb(payload))
+            })
+
+        onL_('')
+        onV_('')
+        onR_('')
+
+        onShow(true)
+        onAdd(!add)
+    }
+
+    const _Cancel = () => {
+        onAdd(!add)
+    }
 
     if(add){
         return (
@@ -84,18 +127,71 @@ const ReadOnlySetting = ({lLabel, vLabel, lValue, vValue, lRType, vRType}) => {
     )
 }
 
-const _Setting = ({ item }) => {
-    
-    const onEdit = () => onChange(!change)
-    const onDelete = () => {}
-
-    const _onEdit = () => {}
-    const _onDelete = () => {}
+const _Setting = ({ item, onShow, onMessage, onTitle, onVarientType })  => {
+    const dispatch = useDispatch()
+    const acc = useSelector(state => state.account)
 
     const [l_, onL_] = useState(item.label)
     const [v_, onV_] = useState(item.value)
     const [r_, onR_] = useState(item.rType)
     const [change, onChange] = useState(false)
+    
+    const onEdit = () => onChange(!change)
+    const _onDelete = () => onChange(!change)
+
+    const onDelete = () => {
+        let deleteSetting = Object.assign({}, item)
+        deleteSetting.token = acc.token
+
+        let payload = {
+            userId: acc.userId,
+            token: acc.token
+        }
+
+        onMessage(Utility.MessageString2(
+            'deleted',
+            l_,
+            v_,
+            r_
+        ))
+        onTitle('Deleted Setting Successfully')
+        onVarientType('danger')
+
+        dispatch(setting.deleteSettingToDo(deleteSetting)
+            .then(i => {
+                dispatch(setting.getSettingAll(payload))
+            }))
+
+        onShow(true)
+    }
+    
+    const _onUpdate = () => {
+        var updateSetting = Object.assign({}, item)
+        updateSetting.token = acc.token
+        updateSetting.label = l_
+        updateSetting.value = v_
+        updateSetting.rType = r_
+
+        let payload = {
+            token: acc.token
+        }
+
+        onMessage(Utility.MessageString2(
+            'updated',
+            l_,
+            v_,
+            r_
+        ))
+        onTitle('Updated Setting Successfully')
+        onVarientType('primary')
+
+        dispatch(setting.updateSettingToDo(updateSetting))
+            .then(i => {
+                dispatch(setting.getSettingAllToDb(payload))
+            })
+        
+        onShow(true)
+    }
 
     return (
         <div className='listWrapper'>
@@ -127,7 +223,7 @@ const _Setting = ({ item }) => {
                     lRType={'rType:'}
                     vRType={r_}
                     onRType={l => onR_(l)}
-                    onEdit={_onEdit}
+                    onEdit={_onUpdate}
                     onEditLabel={'Update'}
                     onDelete={_onDelete}
                     onDeleteLabel={'Cancel'}
@@ -137,7 +233,7 @@ const _Setting = ({ item }) => {
     )
 }
 
-const ListSetting = ({setShow, setMessage, setTitle, setVarientType}) => {
+const ListSetting = ({ onShow, onMessage, onTitle, onVarientType }) => {
     const settingSelector = useSelector(state => state.setting)
 
     if(settingSelector.resultList.length > 0){
@@ -167,8 +263,12 @@ const FormSetting = () => {
     const setSelector = useSelector(state => state.setting)
     const accSelector = useSelector(state => state.account)
 
-    const [refresh, onRefresh] = useState(false)
     const [add, onAdd] = useState(false)
+    const [show, onShow] = useState(false)
+    const [refresh, onRefresh] = useState(false)
+    const [message, onMessage] = useState('')
+    const [title, onTitle] = useState('')
+    const [variantType, onVarientType] = useState('')
 
     useEffect(
         () => {
@@ -191,21 +291,21 @@ const FormSetting = () => {
 
     return (
         <div>
-            <div className='row'>
-                <GeneralBtn
-                    onClick={addSetting}
-                    className={'btn btn-success'}
-                    text={'Add'}
-                />
-                <GeneralBtn
-                    onClick={refreshSetting}
-                    className={'btn btn-primary'}
-                    text={'Refresh'}
-                />
-            </div>
+            <AcceptRejectBtn
+                acceptStyle='btn btn-success'
+                acceptOnClick={addSetting}
+                acceptText={'Add'}
+                rejectStyle='btn btn-primary'
+                rejectOnClick={refreshSetting}
+                rejectText={'Refresh'}
+            />
             <ItemSetting 
                 add={add}
                 onAdd={onAdd}
+                onShow={onShow}
+                onMessage={onMessage}
+                onTitle={onTitle}
+                onVarientType={onVarientType}
             />
             <ListSetting
             />

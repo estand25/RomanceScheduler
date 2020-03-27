@@ -12,6 +12,15 @@ const MessageString = (text, date, itemType, label, result) => {
     }).format(date)}`]
 }
 
+const MessageString2 = (text, label, value, rType) => {
+    return [`Setting has been successfully ${text} to setting field `,
+        `You have ${text} the following setting item `,
+        ` - Label: ${label} `,
+        ` - Value: ${value} `,
+        ` - rType: ${rType}`]
+}
+
 export default {
-    MessageString
+    MessageString,
+    MessageString2
 }
