@@ -57,9 +57,8 @@ const ItemSchedule = ({add, onChange, setShow, setMessage, setTitle, setVariantT
         onChange(!add)
     }
 
-    const onCancel = () => {
-        onChange(!add)
-    }
+    const onCancel = 
+        () => onChange(!add)
 
     const chgTypeMore = (i) => {
         onRomanceItemSelect(i);

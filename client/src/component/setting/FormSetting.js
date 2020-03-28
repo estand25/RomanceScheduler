@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector, useStore } from 'react-redux'
-import { AcceptRejectBtn, MessageAlert, GeneralBtn, Utility } from '../general'
+import { AcceptRejectBtn, MessageAlert, Utility } from '../general'
 import { setting } from '../../action'
+import Anime from 'react-anime'
 
 const ItemSetting = ({add, onAdd, onShow, onMessage, onTitle, onVarientType}) => {
     const dispatch = useDispatch()
@@ -49,8 +50,15 @@ const ItemSetting = ({add, onAdd, onShow, onMessage, onTitle, onVarientType}) =>
         onAdd(!add)
     }
 
-    const _Cancel = () => {
-        onAdd(!add)
+    const _Cancel = 
+        () => onAdd(!add)
+
+    const _Else = () => {
+        onL_("")
+        onV_("")
+        onR_("")
+
+        return <></>
     }
 
     if(add){
@@ -59,13 +67,13 @@ const ItemSetting = ({add, onAdd, onShow, onMessage, onTitle, onVarientType}) =>
                 <EditSetting
                     lLabel={'Label: '}
                     vLabel={l_}
-                    onLabel={onL_}
+                    onLabel={o => onL_(o.target.value)}
                     lValue={'Value: '}
                     vValue={v_}
-                    onValue={onV_}
+                    onValue={o => onV_(o.target.value)}
                     lRType={'rType: '}
                     vRType={r_}
-                    onRType={onR_}
+                    onRType={o => onR_(o.target.value)}
                     onEdit={_onAdd}
                     onEditLabel={'Add'}
                     onDelete={_Cancel}
@@ -74,7 +82,7 @@ const ItemSetting = ({add, onAdd, onShow, onMessage, onTitle, onVarientType}) =>
             </div>
         )
     } else {
-        return <></>
+        return <_Else />
     }
 }
 
@@ -191,6 +199,7 @@ const _Setting = ({ item, onShow, onMessage, onTitle, onVarientType })  => {
             })
         
         onShow(true)
+        onChange(!change)
     }
 
     return (
@@ -216,13 +225,13 @@ const _Setting = ({ item, onShow, onMessage, onTitle, onVarientType })  => {
                 <EditSetting
                     lLabel={'Label:'}
                     vLabel={l_}
-                    onLabel={l => onL_(l)}
+                    onLabel={l => onL_(l.target.value)}
                     lValue={'Value:'}
                     vValue={v_}
-                    onValue={l => onV_(l)}
+                    onValue={l => onV_(l.target.value)}
                     lRType={'rType:'}
                     vRType={r_}
-                    onRType={l => onR_(l)}
+                    onRType={l => onR_(l.target.value)}
                     onEdit={_onUpdate}
                     onEditLabel={'Update'}
                     onDelete={_onDelete}
@@ -244,6 +253,10 @@ const ListSetting = ({ onShow, onMessage, onTitle, onVarientType }) => {
                         <_Setting
                             key={item._id}
                             item={item}
+                            onShow={onShow}
+                            onMessage={onMessage}
+                            onTitle={onTitle}
+                            onVarientType={onVarientType}
                         />
                     ))
                 }
@@ -260,7 +273,6 @@ const ListSetting = ({ onShow, onMessage, onTitle, onVarientType }) => {
 
 const FormSetting = () => {
     const dispatch = useDispatch();
-    const setSelector = useSelector(state => state.setting)
     const accSelector = useSelector(state => state.account)
 
     const [add, onAdd] = useState(false)
@@ -281,16 +293,31 @@ const FormSetting = () => {
         },[refresh]
     )
 
-    const onEdit = () => {}
-
-    const onDelete = () => {}
-
     const addSetting = () => onAdd(!add)
 
     const refreshSetting = () => onRefresh(!refresh)
 
+    let animeItem = {
+        opacity: [0,1],
+        translateX: [-64,0],
+        delay: (el, i) => i * 10
+    }
+
+    let animeList = {
+        opacity: [0,1],
+        translateY: [-64, 0],
+        delay: (el, i) => i *  20
+    }
+
     return (
         <div>
+            <MessageAlert
+                show={show}
+                setShow={onShow}
+                heading={title}
+                body={message}
+                variantType={variantType}
+            />
             <AcceptRejectBtn
                 acceptStyle='btn btn-success'
                 acceptOnClick={addSetting}
@@ -299,16 +326,24 @@ const FormSetting = () => {
                 rejectOnClick={refreshSetting}
                 rejectText={'Refresh'}
             />
-            <ItemSetting 
-                add={add}
-                onAdd={onAdd}
-                onShow={onShow}
-                onMessage={onMessage}
-                onTitle={onTitle}
-                onVarientType={onVarientType}
-            />
-            <ListSetting
-            />
+            <Anime {...animeItem}>
+                <ItemSetting 
+                    add={add}
+                    onAdd={onAdd}
+                    onShow={onShow}
+                    onMessage={onMessage}
+                    onTitle={onTitle}
+                    onVarientType={onVarientType}
+                />
+            </Anime>
+            <Anime {...animeList}>
+                <ListSetting
+                    onShow={onShow}
+                    onMessage={onMessage}
+                    onTitle={onTitle}
+                    onVarientType={onVarientType}
+                />
+            </Anime>
         </div>
     )
 

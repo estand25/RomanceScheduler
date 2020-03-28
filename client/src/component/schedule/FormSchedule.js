@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { MessageAlert, GeneralBtn } from '../general'
+import { MessageAlert, GeneralBtn, AcceptRejectBtn } from '../general'
 import { useSelector, useDispatch } from 'react-redux'
 import { schedule, setting } from '../../action'
 import { ItemSchedule, ListSchedule } from '../../component'
@@ -57,18 +57,14 @@ const FormSchedule = () => {
                 body={message}
                 variantType={variantType}
             />
-            <div className='row'>
-                <GeneralBtn
-                    onClick={addSchedule}
-                    className={'btn btn-success'}
-                    text={'Add'}
-                />
-                <GeneralBtn
-                    onClick={refreshSchedule}
-                    className={'btn btn-primary'}
-                    text={'Refresh'}
-                />
-            </div>
+            <AcceptRejectBtn
+                acceptStyle='btn btn-success'
+                acceptOnClick={addSchedule}
+                acceptText={'Add'}
+                rejectStyle='btn btn-primary'
+                rejectOnClick={refreshSchedule}
+                rejectText={'Refresh'}
+            />
             <Anime {...animeAddSchedule}>
                 <ItemSchedule
                     add={add}
