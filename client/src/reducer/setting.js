@@ -12,7 +12,7 @@ export default (state = initialState, action) => {
         case actions.SETTING_GET_ALL:
             var a = {
                 ...state,
-                resultList: action.payload.filter(i => i.rType == 'activity' || i.rType == 'action'),
+                resultList: action.payload,
                 activityStr: action.payload.map((activity) => {
                     if(activity.rType == 'activity'){
                         return activity.value 

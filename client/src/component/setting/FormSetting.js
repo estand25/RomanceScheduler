@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { AcceptRejectBtn, MessageAlert } from '../general'
+import { AcceptRejectBtn, MessageAlert, BtnGenerator } from '../general'
 import { setting } from '../../action'
 import Anime from 'react-anime'
-import ItemSetting from './ItemSetting'
-import ListSetting from './ListSetting'
+import { ItemSetting, ListSetting} from '../../component'
 
 const FormSetting = () => {
     const dispatch = useDispatch();
@@ -29,7 +28,6 @@ const FormSetting = () => {
     )
 
     const addSetting = () => onAdd(!add)
-
     const refreshSetting = () => onRefresh(!refresh)
 
     let animeItem = {
@@ -44,6 +42,19 @@ const FormSetting = () => {
         delay: (el, i) => i *  20
     }
 
+    const btnList = [
+        {
+            className:'btn btn-success',
+            onClick: () => addSetting(),
+            text: 'Add'
+        },
+        {
+            className:'btn btn-primary',
+            onClick:  () => refreshSetting(),
+            text: 'Refresh'
+        }
+    ]
+
     return (
         <div>
             <MessageAlert
@@ -53,13 +64,8 @@ const FormSetting = () => {
                 body={message}
                 variantType={variantType}
             />
-            <AcceptRejectBtn
-                acceptStyle='btn btn-success'
-                acceptOnClick={addSetting}
-                acceptText={'Add'}
-                rejectStyle='btn btn-primary'
-                rejectOnClick={refreshSetting}
-                rejectText={'Refresh'}
+            <BtnGenerator
+                list={btnList}
             />
             <Anime {...animeItem}>
                 <ItemSetting 

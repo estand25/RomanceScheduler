@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Utility } from '../general'
-import EditSetting from './EditSetting'
+import { EditSetting } from '../../component'
+import { setting } from '../../action'
 
 const ItemSetting = ({add, onAdd, onShow, onMessage, onTitle, onVarientType}) => {
     const dispatch = useDispatch()

@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { AcceptRejectBtn, Utility } from '../general'
+import { AcceptRejectBtn, Utility, BtnGenerator } from '../general'
 import { setting } from '../../action'
-import ReadOnlySetting from '../setting/ReadOnlySetting'
-import EditSetting from '../setting/EditSetting'
+import { ReadOnlySetting, EditSetting } from '../../component'
 
 const _Setting = ({ item, onShow, onMessage, onTitle, onVarientType })  => {
     const dispatch = useDispatch()
@@ -72,15 +71,23 @@ const _Setting = ({ item, onShow, onMessage, onTitle, onVarientType })  => {
         onChange(!change)
     }
 
+    const btnList = [
+        {
+            className:'btn btn-outline-success',
+            onClick: () => onEdit(),
+            text: 'Edit'
+        },
+        {
+            className:'btn btn-outline-danger',
+            onClick:  () => onDelete(),
+            text: 'Delete'
+        }
+    ]
+
     return (
         <div className='listWrapper'>
-            <AcceptRejectBtn
-                acceptStyle='btn btn-outline-success'
-                acceptOnClick={onEdit}
-                acceptText='Edit'
-                rejectStyle='btn btn-outline-danger'
-                rejectOnClick={onDelete}
-                rejectText='Delete'
+            <BtnGenerator
+                list={btnList}
             />
             { !change ? 
                 <ReadOnlySetting

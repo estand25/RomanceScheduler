@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import _Setting from '../setting/_Setting'
+import {_Setting } from '../../component'
 
 const ListSetting = ({ onShow, onMessage, onTitle, onVarientType }) => {
     const settingSelector = useSelector(state => state.setting)
