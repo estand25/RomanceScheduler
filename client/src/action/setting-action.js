@@ -1,5 +1,6 @@
 import { actions } from './type'
 import api from '../api'
+import { getAllScheduleError } from './schedule-action'
 
 export const addSettingAll = (result) => ({
     type: actions.SETTING_ADD_ALL,
@@ -52,6 +53,38 @@ export const getSettingAllToDb = (payload) => {
         dispatch(getSettingLoading(true))
 
         api.getAllSetting(payload)
+            .then(
+                data => {
+                    dispatch(getSettingAll(data.data.data))
+                }
+            )
+            .catch(err => {
+                dispatch(getSettingError(err))
+            })
+    }
+}
+
+export const deleteSettingToDo = (payload) => {
+    return async dispatch => {
+        dispatch(getSettingLoading(true))
+
+        await api.deleteSetting(payload)
+            .then(
+                data => {
+                    dispatch(getSettingAll(data.data.data))
+                }
+            )
+            .catch(err => {
+                dispatch(getSettingError(err))
+            })
+    }
+}
+
+export const updateSettingToDo = (payload) => {
+    return async dispatch => {
+        dispatch(getSettingLoading(true))
+
+        await api.updateSetting(payload)
             .then(
                 data => {
                     dispatch(getSettingAll(data.data.data))

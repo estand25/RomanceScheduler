@@ -5,6 +5,7 @@ import EditableField from './EditableField'
 import EditableCalendarField from './EditableCalendarField'
 import GeneralBtn from './GeneralBtn'
 import Utility from './Utility'
+import BtnGenerator from './BtnGenerator'
 
 export {
     DropDownField,
@@ -13,5 +14,7 @@ export {
     EditableField,
     EditableCalendarField,
     GeneralBtn,
-    Utility
+    BtnGenerator,
+    Utility,
+
 }

@@ -6,7 +6,7 @@ module.exports = (injectCalendarDbHelper) => {
     return {
         getAllEvents: getAllEvents,
         getSpecificEvent: getSpecificEvent,
-        addSpecificEvent: addSpecificEvent,
+        addEvent: addEvent,
         updateSpecificEvent: updateSpecificEvent,
         deleteSpecificEvent: deleteSpecificEvent
     }
@@ -22,7 +22,15 @@ getAllEvents = async (req,res) => {
         })
 }
 getSpecificEvent = () => {}
-addSpecificEvent = () => {}
+addEvent = async (req, res) => {
+    await calendarDbHelper.addSpecificEventToCalendar(req.body)
+        .then(list => {
+            sendResponse(res, 'Calendar list was successfully retreived', null, list)
+        })
+        .catch(error => {
+            sendResponse(res, 'Failed to retrieve list', error, null)
+        })
+}
 updateSpecificEvent = () => {}
 deleteSpecificEvent = () => {}
 
