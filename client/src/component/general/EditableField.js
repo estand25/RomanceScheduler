@@ -16,7 +16,7 @@ const EditableField = ({edit, labelText, list, valueObj, setValueObj}) => {
             <DropDownField
                 label={labelText + ': '}
                 value={valueObject}
-                onChange={i => setValueObj(i)}
+                onChange={setValueObj}
                 options={list}
             />
         )

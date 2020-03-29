@@ -20,7 +20,7 @@ const Schedule = ({item, setShow, setMessage, setTitle, setVariantType}) => {
     }))
 
     const [dte, setDte] = useState(new Date(rScheduleDte))
-    const [displayList, setDisplayList] = useState(resultList.filter((i) => i.rType == 'activity'))
+    const [displayList, setDisplayList] = useState(resultList.filter((i) => i.rType == rType))
 
     const [label, setLabel] = useState('Activity')
 
@@ -120,7 +120,7 @@ const Schedule = ({item, setShow, setMessage, setTitle, setVariantType}) => {
                 labelText={'Romance Type'}
                 list={typeList}
                 valueObj={rTypeValue}
-                setValueObj={chgTypeMore}
+                setValueObj={i => chgTypeMore(i)}
             />
             <EditableField
                 edit={change}
