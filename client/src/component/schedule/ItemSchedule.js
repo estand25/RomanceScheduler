@@ -116,6 +116,7 @@ const ItemSchedule = ({add, onChange, setShow, setMessage, setTitle, setVariantT
             return <></>
         }
     }
+    
     return (
         <Item />
     )

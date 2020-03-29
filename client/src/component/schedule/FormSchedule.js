@@ -28,13 +28,9 @@ const FormSchedule = () => {
         },[refresh]
     )  
 
-    const addSchedule = () =>{
-        onAdd(!add)
-    }
+    const addSchedule = () => onAdd(!add)
 
-    const refreshSchedule = () => {
-        setRefresh(!refresh)
-    }
+    const refreshSchedule = () => setRefresh(!refresh)
 
     let animeAddSchedule = {
         opacity: [0,1],

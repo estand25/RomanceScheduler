@@ -18,13 +18,15 @@ const Schedule = ({item, setShow, setMessage, setTitle, setVariantType}) => {
             return i
         }
     }))
-
     const [dte, setDte] = useState(new Date(rScheduleDte))
     const [displayList, setDisplayList] = useState(resultList.filter((i) => i.rType == rType))
-
     const [label, setLabel] = useState('Activity')
 
     const onEdit = () => {
+        if(!change)
+        {
+
+        }
         onChange(!change)
     }
 
