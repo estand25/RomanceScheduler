@@ -23,6 +23,11 @@ export default (state = initialState, action) => {
                         return action.value
                     }
                 }).filter(i => i != undefined),
+                sexyStr: action.payload.map((sexy) => {
+                    if(sexy.rType == 'sexy'){
+                        return sexy.value
+                    }
+                }).filter(i => i != undefined),
                 typeList: action.payload.filter(i => i.rType == 'option')
             }
             return a
