@@ -20,7 +20,14 @@ const MessageString2 = (text, label, value, rType) => {
         ` - rType: ${rType}`]
 }
 
+const ErrorString = ( field ) => {
+    return [`An Error has occured `,
+        `You are missing the following: `,
+        field]
+}
+
 export default {
     MessageString,
-    MessageString2
+    MessageString2,
+    ErrorString
 }

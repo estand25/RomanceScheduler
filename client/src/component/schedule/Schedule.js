@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { AcceptRejectBtn, EditableField, EditableCalendarField, Utility } from '../general'
+import { AcceptRejectBtn, EditableField, EditableCalendarField, Utility, BtnGenerator } from '../general'
 import { schedule } from '../../action'
 
 const Schedule = ({item, setShow, setMessage, setTitle, setVariantType}) => {
@@ -9,7 +9,7 @@ const Schedule = ({item, setShow, setMessage, setTitle, setVariantType}) => {
     const setSeletor = useSelector(state => state.setting)
 
     const {rType, rResult, rScheduleDte} = item
-    const {activityStr, actionStr, resultList, typeList} = setSeletor
+    const {activityStr, actionStr, sexyStr, resultList, typeList} = setSeletor
 
     const [change, onChange] = useState(false)
     const [rTypeValue, setRtypeValue] = useState(typeList.filter(i => i.value == rType)[0])
@@ -58,31 +58,45 @@ const Schedule = ({item, setShow, setMessage, setTitle, setVariantType}) => {
     }
 
     const onUpdate = () => {
-        var updateSchedule = Object.assign({}, item)
-        updateSchedule.token = accSeletor.token
-        updateSchedule.rScheduleDte = dte.toDateString()
-        updateSchedule.rResult = rResultValue.value
-        updateSchedule.rType = rTypeValue.value
-        
         let payload = {
             userId: accSeletor.userId,
             token: accSeletor.token
         }
-       
-        setMessage(Utility.MessageString(
-            'update',
-            new Date(dte),
-            rTypeValue.label,
-            label,
-            rResultValue.label
-        ))
-        setTitle('Schedule Updated Successfully')
-        setVariantType('primary')
 
-        dispatch(schedule.updateScheduleToDb(updateSchedule))
-            .then(i => {
-                dispatch(schedule.getSchedulesToDb(payload))
-            })
+        if(!rResultValue.value || !rTypeValue.value || dte){
+            var field = !rResultValue.value && !rTypeValue.value
+                ? `- Romance Item && ${label}`
+                : !rResultValue.value ? '- Romance Item '
+                : !rTypeValue.value ? `- Romance ${label}` : ''
+
+            var message = Utility.ErrorString(field)
+            setMessage(message)
+            setTitle('Error Adding Schedule')
+            setVariantType('danger')
+
+            dispatch(schedule.getSchedulesToDb(payload))
+        } else {
+            var updateSchedule = Object.assign({}, item)
+            updateSchedule.token = accSeletor.token
+            updateSchedule.rScheduleDte = dte.toDateString()
+            updateSchedule.rResult = rResultValue.value
+            updateSchedule.rType = rTypeValue.value
+        
+            setMessage(Utility.MessageString(
+                'update',
+                new Date(dte),
+                rTypeValue.label,
+                label,
+                rResultValue.label
+            ))
+            setTitle('Schedule Updated Successfully')
+            setVariantType('primary')
+
+            dispatch(schedule.updateScheduleToDb(updateSchedule))
+                .then(i => {
+                    dispatch(schedule.getSchedulesToDb(payload))
+                })
+        }
 
         setShow(true)
     }
@@ -95,27 +109,53 @@ const Schedule = ({item, setShow, setMessage, setTitle, setVariantType}) => {
             list = resultList.filter((i) => {
                 return activityStr.includes(i.value)
             })
-            setLabel('Activity')
-        } else {
+            onLabel('Activity')
+        } else if(i.value == 'action') {
             list = resultList.filter((i) => {
                 return actionStr.includes(i.value)
             })
-            setLabel('Action')
+            onLabel('Action')
+        } else {
+            list = resultList.filter((i) => {
+                return sexyStr.includes(i.value)
+            })
+            onLabel('Sexy Time')
         }
         
         setDisplayList(list)
         setRResultValue('')
     }
 
+    const btnList = [
+        {
+            className:'btn btn-outline-success',
+            onClick: () => onEdit(),
+            text: 'Edit'
+        },
+        {
+            className:'btn btn-outline-danger',
+            onClick:  () => onDelete(),
+            text: 'Delete'
+        }
+    ]
+
+    const btnList_ = [
+        {
+            className:'btn btn-outline-primary',
+            onClick: () => onUpdate(),
+            text: 'Update'
+        },
+        {
+            className:'btn btn-outline-danger',
+            onClick:  () => onEdit(),
+            text: 'Cancel'
+        }
+    ]
+
     return (
         <div className='listWrapper'>
-            <AcceptRejectBtn
-                acceptStyle='btn btn-outline-success'
-                acceptOnClick={onEdit}
-                acceptText='Edit'
-                rejectStyle='btn btn-outline-danger'
-                rejectOnClick={onDelete}
-                rejectText='Delete'
+            <BtnGenerator
+                list={btnList}
             />
             <EditableField
                 edit={change}
@@ -138,14 +178,10 @@ const Schedule = ({item, setShow, setMessage, setTitle, setVariantType}) => {
                 setDte={setDte}
             />
             { change ? 
-                <AcceptRejectBtn
-                    acceptStyle='btn btn-outline-primary'
-                    acceptOnClick={onUpdate}
-                    acceptText='Update'
-                    rejectStyle='btn btn-outline-danger'
-                    rejectOnClick={onEdit}
-                    rejectText='Cancel'
-                /> :
+                <BtnGenerator
+                    list={btnList_}
+                />
+                :
                 <></>
             }
         </div>
