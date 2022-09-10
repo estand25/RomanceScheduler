@@ -30,7 +30,7 @@
     "bootstrap": "^4.4.1",
     "dotenv-webpack": "^1.7.0",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "moment-range": "^2.1.0",
     "qs": "^6.9.1",
     "random-date-generator": "^1.0.2",
